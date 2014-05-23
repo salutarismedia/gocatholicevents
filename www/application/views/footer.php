@@ -11,6 +11,15 @@
   ga('send', 'pageview');
 
 </script>
+<br>
+<br>
+<br>
 <!-- /google analytics -->
+<center>
+	<p class="text-muted small">
+		&copy; 2014 <a class="text-muted" href="http://www.salutarismedia.com"
+			target="_blank">Salutaris Media</a>
+	</p>
+</center>
 </body>
 </html>
