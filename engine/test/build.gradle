@@ -1,0 +1,8 @@
+apply from: '../build.gradle'
+
+dependencies {
+	compile 'sm:util:' + version
+	compile 'sm:model:' + version
+	compile 'junit:junit:4.11'
+	compile 'com.sun.xml.bind:jaxb:2.1.9'
+}

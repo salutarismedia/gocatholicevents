@@ -1,0 +1,11 @@
+apply from: '../build.gradle'
+
+dependencies {
+	compile 'sm:util:' + version
+	compile 'sm:model:' + version
+	compile 'org.hibernate:hibernate-core:4.2.1.Final'
+	compile 'org.hibernate:hibernate-c3p0:4.2.1.Final'
+	compile 'mysql:mysql-connector-java:5.1.29'
+	compile 'com.sun.xml.bind:jaxb:2.1.9'
+	testCompile 'sm:test:' + version
+}

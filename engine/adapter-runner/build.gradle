@@ -1,0 +1,20 @@
+apply from: '../build.gradle'
+
+apply plugin: 'application'
+
+dependencies {
+    compile 'sm:model:' + version
+	compile 'sm:util:' + version
+	compile 'sm:database:' + version
+	compile 'org.apache.commons:commons-exec:1.2'
+	compile 'com.sun.xml.bind:jaxb:2.1.9'
+}
+
+// run with  gradle run -Parg=<arg>
+mainClassName = "com.sm.gce.adapter.runner.App"
+
+run {  
+    if ( project.hasProperty("arg") ) {  
+        args arg
+    }  
+}

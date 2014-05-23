@@ -1,0 +1,8 @@
+apply from: '../../../../../../build.gradle'
+
+dependencies {
+	compile 'sm:util:' + version
+	compile 'sm:model:' + version
+	compile 'rome:rome:1.0'
+	testCompile 'sm:test:' + version
+}

@@ -1,0 +1,12 @@
+apply from: '../build.gradle'
+
+apply plugin: 'application'
+
+mainClassName = "com.sm.gce.engine.App"
+
+dependencies {
+	compile 'sm:util:' + version
+	compile 'sm:model:' + version
+	compile 'sm:database:' + version
+	compile 'org.apache.commons:commons-exec:1.2'
+}

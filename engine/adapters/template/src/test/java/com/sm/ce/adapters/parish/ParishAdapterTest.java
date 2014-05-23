@@ -1,0 +1,200 @@
+package com.sm.ce.adapters.parish;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
+import java.util.List;
+
+import org.joda.time.LocalDate;
+import org.junit.Test;
+
+import com.sm.ce.common.model.ChurchEvent;
+import com.sm.ce.common.model.enums.Day;
+import com.sm.ce.common.model.enums.EventType;
+import com.sm.ce.common.test.AbstractParserTest;
+
+/**
+ * this test validates that the ChurchDetail interface is properly populated by
+ * the adapter
+ * 
+ * classes must inherit from AbstractParserTest for interfacing with the engine
+ */
+public class ParishAdapterTest extends AbstractParserTest {
+
+    // This constructor required
+    public ParishAdapterTest() {
+        // pass in the instance of the class to test
+        super(new ParishAdapter());
+    }
+
+    @Test
+    public void getName() throws Exception {
+        // use getChurchDetail() inherited from AbstractParserTest which
+        // caches the web requests
+        assertEquals("Parish Name", getChurchDetail().getName());
+    }
+
+    @Test
+    public void getUrl() throws Exception {
+        assertEquals("URL", getChurchDetail().getUrl());
+    }
+
+    @Test
+    public void getStreetAddress() throws Exception {
+        assertEquals("Street Address", getChurchDetail().getStreetAddress());
+    }
+
+    @Test
+    public void getCity() throws Exception {
+        assertEquals("City", getChurchDetail().getCity());
+    }
+
+    @Test
+    public void getState() throws Exception {
+        assertEquals("State", getChurchDetail().getState());
+    }
+
+    @Test
+    public void getZip() throws Exception {
+        assertEquals("Zip", getChurchDetail().getZip());
+    }
+
+    @Test
+    public void getCountry() throws Exception {
+        assertEquals("US", getChurchDetail().getCountry());
+    }
+
+    @Test
+    public void getPhone() throws Exception {
+        assertEquals("555-555-5555", getChurchDetail().getPhone());
+    }
+
+    @Test
+    public void saturdayVigilMassWasFound() throws Exception {
+        List<ChurchEvent> events = getChurchDetail().getEvent(
+                EventType.VIGIL_MASS, Day.SAT);
+        // TODO
+        assertEquals(-1, events.size());
+    }
+
+    @Test
+    public void saturdayMassesWereFound() throws Exception {
+        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
+                Day.SAT);
+        // TODO
+        assertEquals(-1, events.size());
+    }
+
+    @Test
+    public void sundayMassesWereFound() throws Exception {
+        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
+                Day.SUN);
+        // TODO
+        assertEquals(-1, events.size());
+    }
+
+    @Test
+    public void mondayMassesWereFound() throws Exception {
+        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
+                Day.MON);
+        // TODO
+        assertEquals(-1, events.size());
+    }
+
+    @Test
+    public void tuesdayMassesWereFound() throws Exception {
+        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
+                Day.TUE);
+        // TODO
+        assertEquals(-1, events.size());
+    }
+
+    @Test
+    public void wednesdayMassesWereFound() throws Exception {
+        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
+                Day.WED);
+        // TODO
+        assertEquals(-1, events.size());
+    }
+
+    @Test
+    public void thursdayMassesWereFound() throws Exception {
+        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
+                Day.THU);
+        // TODO
+        assertEquals(-1, events.size());
+    }
+
+    @Test
+    public void fridayMassesWereFound() throws Exception {
+        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
+                Day.FRI);
+        // TODO
+        assertEquals(-1, events.size());
+    }
+
+    @Test
+    public void holyDayMassesWereFound() throws Exception {
+        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
+                Day.HOLY);
+        // TODO
+        assertEquals(-1, events.size());
+    }
+
+    @Test
+    public void wednesdayConfessionsWereFound() throws Exception {
+        List<ChurchEvent> events = getChurchDetail().getEvent(
+                EventType.CONFESSION, Day.WED);
+        // TODO
+        assertEquals(-1, events.size());
+    }
+
+    @Test
+    public void weeklyAdorationWasFound() throws Exception {
+        List<ChurchEvent> events = getChurchDetail().getEvent(
+                EventType.ADORATION);
+        // TODO
+        assertEquals(-1, events.size());
+    }
+
+    @Test
+    public void saturdayAdorationWasFound() throws Exception {
+        List<ChurchEvent> events = getChurchDetail().getEvent(
+                EventType.ADORATION, Day.SAT);
+        // TODO
+        assertEquals(-1, events.size());
+    }
+
+    @Test
+    public void eventsWereDownloaded() throws Exception {
+        List<ChurchEvent> events = getChurchDetail().getEvents();
+        assertTrue(events.size() > 1);
+    }
+
+    @Test
+    public void firstEventHasValidName() throws Exception {
+        ChurchEvent event = getChurchDetail().getEvent(EventType.OTHER).get(0);
+        assertNotNull(event.getName());
+    }
+
+    @Test
+    public void firstEventHasValidUrl() throws Exception {
+        ChurchEvent event = getChurchDetail().getEvent(EventType.OTHER).get(0);
+        assertTrue(event.getUrl().startsWith("http"));
+    }
+
+    @Test
+    public void firstEventHasDescription() throws Exception {
+        ChurchEvent event = getChurchDetail().getEvent(EventType.OTHER).get(0);
+        assertNotNull(event.getDescription());
+    }
+
+    @Test
+    public void firstEventHasValidDate() throws Exception {
+        ChurchEvent event = getChurchDetail().getEvent(EventType.OTHER).get(0);
+        LocalDate date = new LocalDate(2000, 1, 1);
+        assertTrue(event.getStartDate().isAfter(date));
+    }
+
+}
