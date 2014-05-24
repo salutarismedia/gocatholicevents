@@ -10,7 +10,7 @@ The system is made of a few different components.  Each is detailed below and ha
 
 
 ###Engine
-Located in the [engine project](https://github.com/salutarismedia/gocatholicevents/tree/master/engine), this is the heart of GCE.  It is responsible for running each parish adapter, storing the information in a local database where it's running, and then uploading this database to the main web site.  The engine iteself is made up of a couple of components detailed in the [README.md](https://www.github.com/salutarismedia/gocatholicevents/blob/master/engine/README.md)
+Located in the [engine project](https://github.com/salutarismedia/gocatholicevents/tree/master/engine), this is the heart of GCE.  It is responsible for running each parish adapter, storing the information in a local database, and then uploading this database to the main web site.  The engine iteself is made up of a couple of components detailed in the [README.md](https://www.github.com/salutarismedia/gocatholicevents/blob/master/engine/README.md)
 
 ###Web Site
 Located in the [www project](https://github.com/salutarismedia/gocatholicevents/tree/master/www), this is the web site that appears at http://www.gocatholicevents.com.  For more information, see the www [README.md](https://www.github.com/salutarismedia/gocatholicevents/blob/master/www/README.md)
