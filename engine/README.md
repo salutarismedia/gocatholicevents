@@ -6,39 +6,39 @@ Thank you for your interest in writing an adapter!  This is the biggest need we 
 
 Clone the repository (copy and paste these lines into a Terminal):
 
-        `git clone https://github.com/salutarismedia/gocatholicevents.git`
+        git clone https://github.com/salutarismedia/gocatholicevents.git
         
 Change directory to the main project directory where you checked out the code to:
 
-        `cd gocatholicevents`
+        cd gocatholicevents
         
 Change directory down into the engine sub project:
 
-        `cd engine`
+        cd engine
         
 Build the common components for the engine (gradle will install itself):
 
-        `./gradlew -P=test install`
+        ./gradlew -P=test install
         
-        `./gradlew -P=util install`
+        ./gradlew -P=util install
         
-        `./gradlew -P=model install`
+        ./gradlew -P=model install
         
-        `./gradlew -P=database install`
+        ./gradlew -P=database install
         
-You now have the system build and you're ready to write an adapter.  Copy the template project from `engine/adapters/template` to an appropriate folder in the adapters folder.  For instance, if you want to create an adapter for [St. Patrick's](http://www.stpatricksf.org/) in San Fransisco, CA you would make the adapter folder and then copy the template to an appropriate folder:
+You now have the system build and you're ready to write an adapter.  Copy the template project from engine/adapters/template to an appropriate folder in the adapters folder.  For instance, if you want to create an adapter for [St. Patrick's](http://www.stpatricksf.org/) in San Fransisco, CA you would make the adapter folder and then copy the template to an appropriate folder:
 
-        `cd adapters`
+        cd adapters
         
-        `mkdir -p north-america/us/ca/san-fransisco`
+        mkdir -p north-america/us/ca/san-fransisco
         
-        `cp -R template north-america/us/ca/san-fransisco/st-patrick`
+        cp -R template north-america/us/ca/san-fransisco/st-patrick
         
 Next, edit the eclipse .project file and rename the project from template to st-patrick.  You can do this manually with vi, or use sed as below:
 
-        `cd north-america/us/ca/san-fransisco/st-patrick/
+        cd north-america/us/ca/san-fransisco/st-patrick/
         
-        `sed -i 's/template/st-patrick/g' .project`
+        sed -i 's/template/st-patrick/g' .project
 
 Within your template folder there is a README.md.  Go ahead and open that and follow the steps to complete your adapter.
 
