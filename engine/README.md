@@ -40,7 +40,7 @@ Next, edit the eclipse .project file and rename the project from template to st-
         
         sed -i 's/template/st-patrick/g' .project
 
-Within your template folder there is a README.md.  Go ahead and open that and follow the steps to complete your adapter.
+Within your template folder there is a README.md.  Follow the steps within the templte README to complete your adapter.
 
 ##Subprojects
 These subprojects work together to gather the information from the different parsishes and upload it to the main site
