@@ -1,4 +1,4 @@
-package com.sm.ce.adapters.parish;
+package com.sm.gce.adapters.parish;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -9,16 +9,19 @@ import java.util.List;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
-import com.sm.ce.common.model.ChurchEvent;
-import com.sm.ce.common.model.enums.Day;
-import com.sm.ce.common.model.enums.EventType;
-import com.sm.ce.common.test.AbstractParserTest;
+import com.sm.gce.common.model.ChurchEvent;
+import com.sm.gce.common.model.enums.Day;
+import com.sm.gce.common.model.enums.EventType;
+import com.sm.gce.common.test.AbstractParserTest;
 
 /**
  * this test validates that the ChurchDetail interface is properly populated by
  * the adapter
  * 
  * classes must inherit from AbstractParserTest for interfacing with the engine
+ * 
+ * TODO - fill out these unit tests until they are all passing. feel free to
+ * tweak/modify as necessary to meet your particular parish's info
  */
 public class ParishAdapterTest extends AbstractParserTest {
 
@@ -67,7 +70,17 @@ public class ParishAdapterTest extends AbstractParserTest {
 
     @Test
     public void getPhone() throws Exception {
-        assertEquals("555-555-5555", getChurchDetail().getPhone());
+        assertEquals("<phone>", getChurchDetail().getPhone());
+    }
+
+    @Test
+    public void getLat() throws Exception {
+        assertEquals(0.0, getChurchDetail().getLat(), 0.0);
+    }
+
+    @Test
+    public void getLon() throws Exception {
+        assertEquals(0.0, getChurchDetail().getLat(), 0.0);
     }
 
     @Test

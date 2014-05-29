@@ -1,6 +1,6 @@
 // TODO - change the relative location of this path depending on where you place you
 // adapter so that it can reach the shared build.gradle file
-apply from: '../build.gradle'
+apply from: '../../build.gradle'
 
 dependencies {
 	compile 'sm:util:' + version

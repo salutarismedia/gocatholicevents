@@ -1,4 +1,4 @@
-package com.sm.ce.adapters.parish;
+package com.sm.gce.adapters.parish;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -10,14 +10,14 @@ import java.util.regex.Pattern;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
-import com.sm.ce.common.exceptions.ParseException;
-import com.sm.ce.common.model.ChurchDetail;
-import com.sm.ce.common.model.ChurchDetailProvider;
-import com.sm.ce.common.model.ChurchEvent;
-import com.sm.ce.common.model.SaturdayConfession;
-import com.sm.ce.common.model.enums.Day;
-import com.sm.ce.util.LoggingObject;
-import com.sm.ce.util.WebHelper;
+import com.sm.gce.common.exceptions.ParseException;
+import com.sm.gce.common.model.ChurchDetail;
+import com.sm.gce.common.model.ChurchDetailProvider;
+import com.sm.gce.common.model.ChurchEvent;
+import com.sm.gce.common.model.SaturdayConfession;
+import com.sm.gce.common.model.enums.Day;
+import com.sm.gce.util.LoggingObject;
+import com.sm.gce.util.WebHelper;
 import com.sun.syndication.feed.module.DCModule;
 import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndEntry;
@@ -61,12 +61,14 @@ public class ParishAdapter extends LoggingObject implements
         ChurchDetail churchDetail = new ChurchDetail();
         try {
             churchDetail.setUrl(URL_HOME);
-            churchDetail.setName("Parish Name");
+            churchDetail.setName("<Parish Name>");
+            churchDetail.setNameSlug("the-church-name-in-url-slug-format");
+            getLocation(churchDetail);
+            // getContactInformation(churchDetail);
             // getMasses(churchDetail);
             // getConfessions(churchDetail);
             // getAdoration(churchDetail);
             // getEvents(churchDetail);
-            // getContactInformation(churchDetail);
         } catch (Exception e) {
             String msg = "Parse error";
             logger.error(msg, e);
@@ -74,6 +76,13 @@ public class ParishAdapter extends LoggingObject implements
         }
 
         return churchDetail;
+    }
+
+    private void getLocation(ChurchDetail churchDetail) {
+        // these can be found on google maps by right clicking on
+        // the point and selecting "what's here"
+        churchDetail.setLat(0.000000);
+        churchDetail.setLon(0.000000);
     }
 
     private void getAdoration(ChurchDetail churchDetail) throws Exception {
@@ -284,7 +293,7 @@ public class ParishAdapter extends LoggingObject implements
     }
 
     private void getCountry(ChurchDetail churchDetail) {
-        // not available on the site
+        // usually not available on the site, so we'll hardcode this one
         churchDetail.setCountry("US");
     }
 
