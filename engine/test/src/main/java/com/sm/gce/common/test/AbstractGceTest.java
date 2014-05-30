@@ -4,7 +4,7 @@ import java.io.File;
 
 import com.sm.gce.util.LoggingObject;
 
-public abstract class AbstractCeTest extends LoggingObject {
+public abstract class AbstractGceTest extends LoggingObject {
 
     public File loadFileFromClasspath(String fileName) {
         String filePath = this.getClass().getClassLoader()
