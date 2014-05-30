@@ -1,4 +1,4 @@
-package com.sm.gce.adapters.parish;
+package com.sm.gce.adapters.st.john.the.beloved;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -26,7 +26,7 @@ import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import com.sun.syndication.io.XmlReader;
 
-public class ParishAdapter extends LoggingObject implements
+public class StJohnTheBelovedAdapter extends LoggingObject implements
         ChurchDetailProvider {
 
     // TODO - populate/add/delete from the URLs/patterns below as needed.

@@ -1,4 +1,4 @@
-package com.sm.gce.adapters.parish;
+package com.sm.gce.adapters.st.john.the.beloved;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -9,6 +9,7 @@ import java.util.List;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
+import com.sm.gce.adapters.st.john.the.beloved.StJohnTheBelovedAdapter;
 import com.sm.gce.common.model.ChurchEvent;
 import com.sm.gce.common.model.enums.Day;
 import com.sm.gce.common.model.enums.EventType;
@@ -23,12 +24,12 @@ import com.sm.gce.common.test.AbstractParserTest;
  * TODO - fill out these unit tests until they are all passing. feel free to
  * tweak/modify as necessary to meet your particular parish's info
  */
-public class ParishAdapterTest extends AbstractParserTest {
+public class StJohnTheBelovedAdapterTest extends AbstractParserTest {
 
     // This constructor required
-    public ParishAdapterTest() {
+    public StJohnTheBelovedAdapterTest() {
         // pass in the instance of the class to test
-        super(new ParishAdapter());
+        super(new StJohnTheBelovedAdapter());
     }
 
     @Test
