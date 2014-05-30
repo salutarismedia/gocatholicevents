@@ -3,6 +3,10 @@ require_once (APPPATH . 'models/geomodel.php');
 
 class ChurchEvent extends GeoModel {
 
+    function __construct() {
+        parent::__construct();
+    }
+
     function findByLatAndLon($lat, $lon, $limit) {
         $this->prepareGeoEventQuery($lat, $lon, $limit);
         // can't put these in an array because the keys overwrite one another
@@ -10,7 +14,8 @@ class ChurchEvent extends GeoModel {
         $this->db->where(COL_EVENT_TYPE . " !=", EVENT_TYPE_VIGIL_MASS);
         $this->db->where(COL_EVENT_TYPE . " !=", EVENT_TYPE_ADORATION);
         $this->db->where(COL_EVENT_TYPE . " !=", EVENT_TYPE_CONFESSION);
-        return $this->db->get();
+        $query = $this->db->get();
+        return $query->result();
     }
 
     function setUpChurchQuery($churchId) {

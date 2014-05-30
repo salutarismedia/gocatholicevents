@@ -12,7 +12,7 @@
 			<h2>Events</h2>
 			<table class="table table-hover">
 <?php
-foreach ( $events->result() as $event ) {
+foreach ( $events as $event ) {
     echo "<tr><td>" . smallParishEventLink($event) . "</td></tr>";
 }
 ?>
@@ -32,7 +32,7 @@ foreach ( $events->result() as $event ) {
 			<h2>Mass</h2>
 			<table class="table table-hover">
 <?php
-foreach ( $masses->result() as $mass ) {
+foreach ( $masses as $mass ) {
     echo "<tr><td>" . smallParishSacramentLink($mass) . "</td></tr>";
 }
 ?>
@@ -52,7 +52,7 @@ foreach ( $masses->result() as $mass ) {
 			<h2>Adoration</h2>
 			<table class="table table-hover">
 <?php
-foreach ( $adoration->result() as $adoration ) {
+foreach ( $adorations as $adoration ) {
     echo "<tr><td>" . smallParishSacramentLink($adoration) . "</td></tr>";
 }
 ?>          <tr>
@@ -70,7 +70,7 @@ foreach ( $adoration->result() as $adoration ) {
 			<h2>Confession</h2>
 			<table class="table table-hover">
 <?php
-foreach ( $confessions->result() as $confession ) {
+foreach ( $confessions as $confession ) {
     echo "<tr><td>" . smallParishSacramentLink($confession) . "</td></tr>";
 }
 ?>

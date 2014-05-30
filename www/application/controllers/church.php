@@ -22,9 +22,9 @@ class Church extends CI_Controller {
                 'church' => $church,
                 'churchAddress' => $churchAddress,
                 'events' => $events,
-                'mass' => $this->mass->findByChurchId($church->id),
-                'adoration' => $this->adoration->findByChurchId($church->id),
-                'confession' => $this->confession->findByChurchId($church->id) 
+                'masses' => $this->mass->findByChurchId($church->id),
+                'adorations' => $this->adoration->findByChurchId($church->id),
+                'confessions' => $this->confession->findByChurchId($church->id) 
         );
         // $this->output->enable_profiler(TRUE);
         $this->load->view('church', $data);

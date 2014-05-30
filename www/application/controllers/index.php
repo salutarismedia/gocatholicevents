@@ -15,7 +15,7 @@ class Index extends CI_Controller {
         $this->setUserLatLon();
         $data = array (
                 'masses' => $this->getMasses(LIMIT_SMALL),
-                'adoration' => $this->getAdorations(LIMIT_SMALL),
+                'adorations' => $this->getAdorations(LIMIT_SMALL),
                 'confessions' => $this->getConfessions(LIMIT_SMALL),
                 'events' => $this->getEvents(LIMIT_SMALL) 
         );

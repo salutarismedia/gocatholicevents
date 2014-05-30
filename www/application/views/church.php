@@ -31,7 +31,7 @@
 			<h2>Mass</h2>
 			<table class="table table-hover">
                     <?php
-                    foreach ( $mass->result() as $mass ) {
+                    foreach ( $masses as $mass ) {
                         echo "<tr><td>" . smallSacramentLink($mass) . "</tr></td>";
                     }
                     ?>
@@ -43,7 +43,7 @@
 			<h2>Confession</h2>
 			<table class="table table-hover">
                     <?php
-                    foreach ( $confession->result() as $confession ) {
+                    foreach ( $confessions as $confession ) {
                         echo "<tr><td>" . smallSacramentLink($confession) . "</tr></td>";
                     }
                     ?>
@@ -55,7 +55,7 @@
 			<h2>Adoration</h2>
 			<table class="table table-hover">
                     <?php
-                    foreach ( $adoration->result() as $adoration ) {
+                    foreach ( $adorations as $adoration ) {
                         echo "<tr><td>" . smallSacramentLink($adoration) . "</tr></td>";
                     }
                     ?>
