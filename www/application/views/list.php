@@ -35,10 +35,10 @@ switch ($type) {
 foreach ( $items->result() as $item ) {
     echo "<tr><td>";
     if ($type == URL_EVENTS) {
-        echo "<a href='" . $item->url . "' target='_blank'>" . $item->name . "</a> @ " . "<a href='" . church_url($item) . "'>" . $item->churchName . "</a>";
+        echo smallParishEventLink($item);
     }
     else {
-        echo toDay($item->day) . " - " . toTime($item->startTime) . " @ " . "<a href='" . church_url($item) . "'>" . $item->churchName . "</a>";
+        echo smallParishSacramentLink($item);
     }
     echo "</td></tr>";
 }

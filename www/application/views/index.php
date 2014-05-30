@@ -13,13 +13,14 @@
 			<table class="table table-hover">
 <?php
 foreach ( $events->result() as $event ) {
-    echo "<tr><td><a href='" . $event->url . "' target='_blank'>" . $event->name . "</a> @ " . "<a href='" . church_url($event) . "'>" . $event->churchName . "</a></td></tr>";
+    echo "<tr><td>" . smallParishEventLink($event) . "</td></tr>";
 }
 ?>
                 <tr>
 					<td><h5>
-							<a href="<?php echo site_url('index/view/' . URL_EVENTS)?>">More Events <span
-								class="glyphicon glyphicon-circle-arrow-right"></span></a>
+							<a href="<?php echo site_url('index/view/' . URL_EVENTS)?>">More
+								Events <span class="glyphicon glyphicon-circle-arrow-right"></span>
+							</a>
 						</h5></td>
 				</tr>
 			</table>
@@ -32,16 +33,17 @@ foreach ( $events->result() as $event ) {
 			<table class="table table-hover">
 <?php
 foreach ( $masses->result() as $mass ) {
-    echo "<tr><td><a href='" . church_url($mass) . "'>" . $mass->churchName . "</a><br>" . toDay($mass->day) . " - " . toTime($mass->startTime) . "</td></tr>";
+    echo "<tr><td>" . smallParishSacramentLink($mass) . "</td></tr>";
 }
 ?>
             <tr>
-				<td><h5>
-					<a href="<?php echo site_url('index/view/' . URL_MASSES)?>">More Masses <span
-								class="glyphicon glyphicon-circle-arrow-right"></span></a>
-					</h5></td>
-			</tr>
-		</table>
+					<td><h5>
+							<a href="<?php echo site_url('index/view/' . URL_MASSES)?>">More
+								Masses <span class="glyphicon glyphicon-circle-arrow-right"></span>
+							</a>
+						</h5></td>
+				</tr>
+			</table>
 
 		</div>
 
@@ -51,15 +53,16 @@ foreach ( $masses->result() as $mass ) {
 			<table class="table table-hover">
 <?php
 foreach ( $adoration->result() as $adoration ) {
-    echo "<tr><td><a href='" . church_url($adoration) . "'>" . $adoration->churchName . "</a><br>" . toDay($adoration->day) . " - " . toTime($adoration->startTime) . "</td></tr>";
+    echo "<tr><td>" . smallParishSacramentLink($adoration) . "</td></tr>";
 }
 ?>          <tr>
-				<td><h5>
-					<a href="<?php echo site_url('index/view/' . URL_ADORATIONS)?>">More Adorations <span
-								class="glyphicon glyphicon-circle-arrow-right"></span></a>
-					</h5></td>
-			</tr>
-		</table>
+					<td><h5>
+							<a href="<?php echo site_url('index/view/' . URL_ADORATIONS)?>">More
+								Adorations <span class="glyphicon glyphicon-circle-arrow-right"></span>
+							</a>
+						</h5></td>
+				</tr>
+			</table>
 		</div>
 
 
@@ -68,16 +71,17 @@ foreach ( $adoration->result() as $adoration ) {
 			<table class="table table-hover">
 <?php
 foreach ( $confessions->result() as $confession ) {
-    echo "<tr><td><a href='" . church_url($confession) . "'>" . $confession->churchName . "</a><br>" . toDay($confession->day) . " - " . toTime($confession->startTime) . "</td></tr>";
+    echo "<tr><td>" . smallParishSacramentLink($confession) . "</td></tr>";
 }
 ?>
             <tr>
-				<td><h5>
-					<a href="<?php echo site_url('index/view/' . URL_CONFESSIONS)?>">More Confessions <span
-								class="glyphicon glyphicon-circle-arrow-right"></span></a>
-					</h5></td>
-			</tr>
-		</table>
+					<td><h5>
+							<a href="<?php echo site_url('index/view/' . URL_CONFESSIONS)?>">More
+								Confessions <span class="glyphicon glyphicon-circle-arrow-right"></span>
+							</a>
+						</h5></td>
+				</tr>
+			</table>
 		</div>
 		<!-- /row -->
 	</div>

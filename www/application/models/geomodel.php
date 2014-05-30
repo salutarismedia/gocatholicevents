@@ -19,8 +19,9 @@ class GeoModel extends ChurchEventModel {
         $this->db->from(TABLE_EVENTS);
         $this->db->join(TABLE_CHURCHES, JOIN_CHURCHES_TO_EVENTS);
         $this->db->limit($limit);
-        //$this->db->order_by("startTime", "desc");
         $this->db->order_by("day", "asc");
+        $this->db->order_by("startDate", "asc");
+        $this->db->order_by("startTime", "asc");
     }
 }
 

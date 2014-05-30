@@ -18,14 +18,7 @@
                 <?php
                 // print_r($events);
                 foreach ( $events as $event ) {
-                    ?>
-                <h3>
-					<a href="<?php echo $event->url;?>" target="_blank"><?php echo ellipsize($event->name, LENGTH_EVENT_TITLE);?></a>
-					&nbsp;&nbsp;&nbsp; <small><?php echo $event->startDate?></small>
-				</h3>
-				<span><?php echo ellipsize($event->description, LENGTH_EVENT_DESC);?></span>
-				
-<?php
+                    echo "<tr><td>" . largeEventLink($event) . "</td></tr>";
                 }
                 ?>
 		</table>
@@ -39,7 +32,7 @@
 			<table class="table table-hover">
                     <?php
                     foreach ( $mass->result() as $mass ) {
-                        echo "<tr><td>" . toDay($mass->day) . " - " . toTime($mass->startTime) . "</td></tr>";
+                        echo "<tr><td>" . smallSacramentLink($mass) . "</tr></td>";
                     }
                     ?>
 		          </table>
@@ -51,7 +44,7 @@
 			<table class="table table-hover">
                     <?php
                     foreach ( $confession->result() as $confession ) {
-                        echo "<tr><td>" . toDay($confession->day) . " - " . toTime($confession->startTime) . "</td></tr>";
+                        echo "<tr><td>" . smallSacramentLink($confession) . "</tr></td>";
                     }
                     ?>
 		          </table>
@@ -63,7 +56,7 @@
 			<table class="table table-hover">
                     <?php
                     foreach ( $adoration->result() as $adoration ) {
-                        echo "<tr><td>" . toDay($adoration->day) . " - " . toTime($adoration->startTime) . "</td></tr>";
+                        echo "<tr><td>" . smallSacramentLink($adoration) . "</tr></td>";
                     }
                     ?>
 		          </table>
