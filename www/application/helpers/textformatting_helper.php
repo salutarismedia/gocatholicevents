@@ -71,7 +71,15 @@ if (! function_exists('smallSacramentLink')) {
      * prints out a sacrament link on a single line when the parish is already known
      */
     function smallSacramentLink($item) {
-        return toDay($item->day) . " - " . toTime($item->startTime) . "</td></tr>";
+        //print_r($item);
+        $link = toDay($item->day) . " - " . toTime($item->startTime);
+        if ($item->stopTime) {
+            $link .= " - " . toTime($item->stopTime);
+        }
+        if ($item->note) {
+            $link .= " " . $item->note;
+        }
+        return $link;
     }
 }
 
