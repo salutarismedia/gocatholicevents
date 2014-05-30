@@ -26,14 +26,30 @@ Build the common components for the engine (gradle will install itself):
         
         ./gradlew -P=database install
         
-You now have the system build and you're ready to write an adapter.  Copy the template project from engine/adapters/template to an appropriate folder in the adapters folder.  For instance, if you want to create an adapter for [St. Patrick's](http://www.stpatricksf.org/) in San Fransisco, CA you would make the adapter folder and then copy the template to an appropriate folder:
+You now have the system built and you're ready to write an adapter.  Copy the template project from engine/adapters/template to an appropriate sub folder beneath the main adapters folder.  For instance, if you want to create an adapter for [St. Patrick's](http://www.stpatricksf.org/) in San Fransisco, CA you would first make a folder for the adapter and then copy the template project to the folderyou made:
 
         cd adapters
         
         mkdir -p north-america/us/ca/san-fransisco
         
-        cp -R template north-america/us/ca/san-fransisco/st-patrick
-        
+        cp -R template/ north-america/us/ca/san-fransisco/st-patrick
+
+If the copy worked correctly you will see the following files listed in your template folder:
+
+        cd north-america/us/ca/san-fransisco/st-patrick
+
+        ls -lhart
+        total 40
+        .gitignore
+        .classpath
+        ..
+        src
+        build.gradle
+        README.md
+        .project
+        .
+
+
 Next, edit the eclipse .project file and rename the project from template to st-patrick.  You can do this manually with vi, or use sed as below:
 
         cd north-america/us/ca/san-fransisco/st-patrick/
