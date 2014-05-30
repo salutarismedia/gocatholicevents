@@ -66,6 +66,8 @@ public class StJohnTheApostleAdapter extends LoggingObject implements
             churchDetail.setUrl(URL_HOME);
             churchDetail.setName("St John the Apostle");
             churchDetail.setNameSlug("st-john-the-apostle");
+            churchDetail.setCitySlug("leesburg");
+            churchDetail.setStateSlug("va");
             getContactInformation(churchDetail);
             getLocation(churchDetail);
             getMasses(churchDetail);
