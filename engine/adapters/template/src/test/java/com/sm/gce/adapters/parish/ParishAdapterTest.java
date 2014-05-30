@@ -90,7 +90,7 @@ public class ParishAdapterTest extends AbstractParserTest {
 
     @Test
     public void getLon() throws Exception {
-        assertEquals(0.0, getChurchDetail().getLat(), 0.0);
+        assertEquals(0.0, getChurchDetail().getLon(), 0.0);
     }
 
     @Test
