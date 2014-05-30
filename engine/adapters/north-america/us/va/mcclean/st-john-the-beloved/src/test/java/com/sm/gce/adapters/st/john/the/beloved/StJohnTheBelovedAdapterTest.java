@@ -9,21 +9,11 @@ import java.util.List;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 
-import com.sm.gce.adapters.st.john.the.beloved.StJohnTheBelovedAdapter;
 import com.sm.gce.common.model.ChurchEvent;
 import com.sm.gce.common.model.enums.Day;
 import com.sm.gce.common.model.enums.EventType;
 import com.sm.gce.common.test.AbstractParserTest;
 
-/**
- * this test validates that the ChurchDetail interface is properly populated by
- * the adapter
- * 
- * classes must inherit from AbstractParserTest for interfacing with the engine
- * 
- * TODO - fill out these unit tests until they are all passing. feel free to
- * tweak/modify as necessary to meet your particular parish's info
- */
 public class StJohnTheBelovedAdapterTest extends AbstractParserTest {
 
     // This constructor required
@@ -34,44 +24,44 @@ public class StJohnTheBelovedAdapterTest extends AbstractParserTest {
 
     @Test
     public void getName() throws Exception {
-        // use getChurchDetail() inherited from AbstractParserTest which
-        // caches the web requests
-        assertEquals("Parish Name", getChurchDetail().getName());
+        assertEquals("St John the Beloved", getChurchDetail().getName());
     }
 
     @Test
     public void getUrl() throws Exception {
-        assertEquals("URL", getChurchDetail().getUrl());
+        assertEquals("http://www.stjohncatholicmclean.org/", getChurchDetail()
+                .getUrl());
     }
 
     @Test
     public void getStreetAddress() throws Exception {
-        assertEquals("Street Address", getChurchDetail().getStreetAddress());
+        assertEquals("6420 Linway Terrace", getChurchDetail()
+                .getStreetAddress());
     }
 
     @Test
     public void getCity() throws Exception {
-        assertEquals("City", getChurchDetail().getCity());
+        assertEquals("McClean", getChurchDetail().getCity());
     }
 
     @Test
     public void getCitySlug() throws Exception {
-        assertEquals("<city-slug>", getChurchDetail().getCitySlug());
+        assertEquals("mcclean", getChurchDetail().getCitySlug());
     }
 
     @Test
     public void getState() throws Exception {
-        assertEquals("State", getChurchDetail().getState());
+        assertEquals("VA", getChurchDetail().getState());
     }
 
     @Test
     public void getStateSlug() throws Exception {
-        assertEquals("<state-slug>", getChurchDetail().getStateSlug());
+        assertEquals("va", getChurchDetail().getStateSlug());
     }
 
     @Test
     public void getZip() throws Exception {
-        assertEquals("Zip", getChurchDetail().getZip());
+        assertEquals("22101", getChurchDetail().getZip());
     }
 
     @Test
@@ -81,17 +71,17 @@ public class StJohnTheBelovedAdapterTest extends AbstractParserTest {
 
     @Test
     public void getPhone() throws Exception {
-        assertEquals("<phone>", getChurchDetail().getPhone());
+        assertEquals("703-356-7916", getChurchDetail().getPhone());
     }
 
     @Test
     public void getLat() throws Exception {
-        assertEquals(0.0, getChurchDetail().getLat(), 0.0);
+        assertEquals(38.924824, getChurchDetail().getLat(), 0.0);
     }
 
     @Test
     public void getLon() throws Exception {
-        assertEquals(0.0, getChurchDetail().getLat(), 0.0);
+        assertEquals(-77.161199, getChurchDetail().getLon(), 0.0);
     }
 
     @Test

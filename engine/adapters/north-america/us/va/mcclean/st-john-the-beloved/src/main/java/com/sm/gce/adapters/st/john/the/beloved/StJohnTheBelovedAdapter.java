@@ -29,18 +29,14 @@ import com.sun.syndication.io.XmlReader;
 public class StJohnTheBelovedAdapter extends LoggingObject implements
         ChurchDetailProvider {
 
-    // TODO - populate/add/delete from the URLs/patterns below as needed.
-    // it's important that regex's are used to check against the html in
-    // case of web site updates the unit tests will fail and alert a
-    // developer that the parser should be updated
-    private static final String URL_HOME = "http://www.<parish site>.com";
+    private static final String URL_HOME = "http://www.stjohncatholicmclean.org/";
     private static final String URL_RSS = "";
     private static final Pattern REGEX_STREET_ADDRESS = Pattern
-            .compile("<exact street address>");
+            .compile("6420 Linway Terrace");
     private static final Pattern REGEX_CITY_STATE_ZIP = Pattern
-            .compile("<city, state zip>");
+            .compile("McLean, VA 22101");
     private static final Pattern REGEX_PHONE = Pattern
-            .compile("<phone number>");
+            .compile("\\(703\\) 356-7916");
     private static final Pattern REGEX_SAT_VIGIL_MASS = Pattern.compile("TODO");
     private static final Pattern REGEX_SAT_DAILY_MASS = Pattern.compile("");
     private static final Pattern REGEX_SUN_MASS = Pattern.compile("");
@@ -61,12 +57,12 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
         ChurchDetail churchDetail = new ChurchDetail();
         try {
             churchDetail.setUrl(URL_HOME);
-            churchDetail.setName("<Parish Name>");
-            churchDetail.setNameSlug("the-church-name-in-url-slug-format");
-            churchDetail.setCitySlug("<city-slug>");
-            churchDetail.setStateSlug("<state-slug>");
+            churchDetail.setName("St John the Beloved");
+            churchDetail.setNameSlug("st-john-the-beloved");
+            churchDetail.setCitySlug("mcclean");
+            churchDetail.setStateSlug("va");
             getLocation(churchDetail);
-            // getContactInformation(churchDetail);
+            getContactInformation(churchDetail);
             // getMasses(churchDetail);
             // getConfessions(churchDetail);
             // getAdoration(churchDetail);
@@ -83,8 +79,8 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
     private void getLocation(ChurchDetail churchDetail) {
         // these can be found on google maps by right clicking on
         // the point and selecting "what's here"
-        churchDetail.setLat(0.000000);
-        churchDetail.setLon(0.000000);
+        churchDetail.setLat(38.924824);
+        churchDetail.setLon(-77.161199);
     }
 
     private void getAdoration(ChurchDetail churchDetail) throws Exception {
@@ -288,7 +284,7 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
 
     private void getPhone(ChurchDetail churchDetail) throws Exception {
         if (webHelper.matches(URL_HOME, REGEX_PHONE)) {
-            // churchDetail.setPhone("TODO");
+            churchDetail.setPhone("703-356-7916");
         } else {
             throw new ParseException("Could not extract phone.");
         }
@@ -301,9 +297,9 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
 
     private void getCityStateAndZip(ChurchDetail churchDetail) throws Exception {
         if (webHelper.matches(URL_HOME, REGEX_CITY_STATE_ZIP)) {
-            // churchDetail.setCity("City");
-            // churchDetail.setState("State");
-            // churchDetail.setZip("Zip");
+            churchDetail.setCity("McClean");
+            churchDetail.setState("VA");
+            churchDetail.setZip("22101");
         } else {
             throw new ParseException("Could not extract city, state and zip.");
         }
@@ -311,7 +307,7 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
 
     private void getStreetAddress(ChurchDetail churchDetail) throws Exception {
         if (webHelper.matches(URL_HOME, REGEX_STREET_ADDRESS)) {
-            // churchDetail.setStreetAddress("Street Address");
+            churchDetail.setStreetAddress("6420 Linway Terrace");
         } else {
             throw new ParseException("Could not extract street address.");
         }
