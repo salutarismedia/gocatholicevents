@@ -72,6 +72,7 @@ public class StLeoFairfaxVaUsaAdapter extends LoggingObject implements
         try {
             churchDetail.setName("St. Leo the Great");
             churchDetail.setNameSlug("st-leo-the-great");
+            churchDetail.setCitySlug("fairfax");
             churchDetail.setUrl(URL_HOME);
             churchDetail.setLat(38.85403);
             churchDetail.setLon(-77.296582);

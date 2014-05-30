@@ -52,6 +52,11 @@ public class StLeoFairfaxVaUsaAdapterTest extends AbstractParserTest {
     }
 
     @Test
+    public void getCitySlug() throws Exception {
+        assertEquals("fairfax", getChurchDetail().getCitySlug());
+    }
+    
+    @Test
     public void getState() throws Exception {
         assertEquals("VA", getChurchDetail().getState());
     }
