@@ -64,6 +64,11 @@ public class ParishAdapterTest extends AbstractParserTest {
     }
 
     @Test
+    public void getStateSlug() throws Exception {
+        assertEquals("<state-slug>", getChurchDetail().getStateSlug());
+    }
+
+    @Test
     public void getZip() throws Exception {
         assertEquals("Zip", getChurchDetail().getZip());
     }

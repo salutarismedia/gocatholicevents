@@ -64,6 +64,7 @@ public class ParishAdapter extends LoggingObject implements
             churchDetail.setName("<Parish Name>");
             churchDetail.setNameSlug("the-church-name-in-url-slug-format");
             churchDetail.setCitySlug("<city-slug>");
+            churchDetail.setStateSlug("<state-slug>");
             getLocation(churchDetail);
             // getContactInformation(churchDetail);
             // getMasses(churchDetail);
