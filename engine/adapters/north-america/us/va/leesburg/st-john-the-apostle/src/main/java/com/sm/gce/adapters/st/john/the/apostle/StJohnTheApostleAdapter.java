@@ -246,12 +246,25 @@ public class StJohnTheApostleAdapter extends LoggingObject implements
             ChurchEvent event = new ChurchEvent();
             event.setStartDate(date);
             setEventTime(event, googleEvent);
-            setEventTitle(event, googleEvent);
-            churchDetail.getEvents().add(event);
+            setEventName(event, googleEvent);
+            if (validEvent(event)) {
+                churchDetail.getEvents().add(event);
+            }
         }
     }
 
-    private void setEventTitle(ChurchEvent event, Element googleEvent) {
+    private boolean validEvent(ChurchEvent event) {
+        // scrub out invalid events in the event list
+        // (these are handled elsewhere)
+        return !event.getName().toLowerCase().startsWith("mass -")
+                && !event.getName().toLowerCase()
+                        .startsWith("mass in the extra")
+                && !event.getName().toLowerCase().startsWith("confessions - ")
+                && !event.getName().toLowerCase().startsWith("spanish mass - ")
+                && !event.getName().toLowerCase().startsWith("baptisms - ");
+    }
+
+    private void setEventName(ChurchEvent event, Element googleEvent) {
         if (event != null && googleEvent != null) {
             Elements spans = googleEvent.select("span");
             if (spans.size() == 1) {
