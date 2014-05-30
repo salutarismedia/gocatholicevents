@@ -1,14 +1,17 @@
 package com.sm.gce.adapters.st.john.the.apostle;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Date;
-import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import com.sm.gce.common.exceptions.ParseException;
 import com.sm.gce.common.model.ChurchDetail;
@@ -29,16 +32,12 @@ import com.sm.gce.util.WebHelper;
 import com.sun.syndication.feed.module.DCModule;
 import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndEntry;
-import com.sun.syndication.feed.synd.SyndFeed;
-import com.sun.syndication.io.FeedException;
-import com.sun.syndication.io.SyndFeedInput;
-import com.sun.syndication.io.XmlReader;
 
 public class StJohnTheApostleAdapter extends LoggingObject implements
         ChurchDetailProvider {
 
     private static final String URL_HOME = "http://www.saintjohnleesburg.org/";
-    private static final String URL_RSS = "";
+    private static final String URL_EVENTS = "https://www.google.com/calendar/htmlembed?mode=AGENDA&height=600&wkst=1&bgcolor=%23FFFFFF&src=bulletin@stjohnleesburg.com&color=%23060D5E&src=1jrk50etc40rfqnk5hb9v9im8c@group.calendar.google.com&color=%23BE6D00&src=prqh4a7t7eiegul4t76n327q7g@group.calendar.google.com&color=%230D7813&src=oj8cs3uv3l0fc73ub8o26240o4@group.calendar.google.com&color=%23A32929&ctz=America/New_York";
     private static final Pattern REGEX_STREET_ADDRESS = Pattern
             .compile("101 Oakcrest Manor Dr. NE");
     private static final Pattern REGEX_CITY_STATE_ZIP = Pattern
@@ -76,7 +75,7 @@ public class StJohnTheApostleAdapter extends LoggingObject implements
             getMasses(churchDetail);
             getConfessions(churchDetail);
             getAdoration(churchDetail);
-            // getEvents(churchDetail);
+            getEvents(churchDetail);
         } catch (Exception e) {
             String msg = "Parse error";
             logger.error(msg, e);
@@ -198,33 +197,110 @@ public class StJohnTheApostleAdapter extends LoggingObject implements
         }
     }
 
-    private void getEvents(ChurchDetail churchDetail)
-            throws MalformedURLException, FeedException, IOException {
-        SyndFeed feed = downloadRssFeed();
-        logger.info("extracting rss values...");
-        extractEvents(churchDetail, feed);
+    private void getEvents(ChurchDetail churchDetail) throws Exception {
+        Elements eventTables = downloadEventTables();
+        Elements dates = downloadDates();
+        if (eventTables.size() == dates.size()) {
+            for (int i = 0; i < dates.size(); i++) {
+                LocalDate localDate = extractLocalDateFromGoogleDate(dates
+                        .get(i));
+                if (localDate != null) {
+                    Elements events = eventTables.get(i).select(
+                            ".event-eventInfo");
+                    if (events != null && events.size() > 0) {
+                        parseEvents(churchDetail, localDate, eventTables.get(i));
+                    } else {
+                        throw new RuntimeException(
+                                "Could not find events in event table");
+                    }
+                } else {
+                    throw new RuntimeException("Could not parse date of "
+                            + dates.get(i));
+                }
+            }
+        } else {
+            throw new RuntimeException(
+                    "Dates and events were not the same length.  Extracted "
+                            + eventTables.size() + " events and "
+                            + dates.size() + " dates");
+        }
+
     }
 
-    private void extractEvents(ChurchDetail churchDetail, SyndFeed feed) {
-        List<SyndEntry> entries = feed.getEntries();
-        if (entries != null) {
-            for (SyndEntry entry : entries) {
-                ChurchEvent event = convertEntryToEvent(entry);
-                churchDetail.getEvents().add(event);
+    private LocalDate extractLocalDateFromGoogleDate(Element date) {
+        LocalDate localDate = null;
+        if (date != null) {
+            String strDate = date.html();
+            logger.debug("extracted date of " + strDate);
+            // date time strings available at:
+            // http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html
+            DateTimeFormatter formatter = DateTimeFormat
+                    .forPattern("EEE MMM dd, yyyy");
+            localDate = formatter.parseLocalDate(strDate);
+        }
+        return localDate;
+    }
+
+    private void parseEvents(ChurchDetail churchDetail, LocalDate date,
+            Element eventsTable) {
+        Elements googleEvents = eventsTable.select(".event");
+        for (Element googleEvent : googleEvents) {
+            ChurchEvent event = new ChurchEvent();
+            event.setStartDate(date);
+            setEventTime(event, googleEvent);
+        }
+    }
+
+    private void setEventTime(ChurchEvent event, Element googleEvent) {
+        if (event != null && googleEvent != null) {
+            Elements eventTime = googleEvent.select(".event-time");
+            String strTime = eventTime.text();
+            logger.debug("extracted time of " + strTime);
+            Pattern extendedTimePattern = Pattern
+                    .compile("(.*?):(\\d\\d)(am|pm)");
+            Matcher extendedTimeMatcher = extendedTimePattern.matcher(strTime);
+            Pattern shortTimePattern = Pattern.compile("(.*?)(am|pm)");
+            Matcher shortTimeMatcher = shortTimePattern.matcher(strTime);
+            if (!strTime.equals("")) {
+                LocalTime localTime = null;
+                if (extendedTimeMatcher.matches()) {
+                    localTime = parseExtendedTimeString(strTime,
+                            extendedTimeMatcher);
+                    event.setStartTime(localTime);
+                } else if (shortTimeMatcher.matches()) {
+                    localTime = parseShortTimeString(strTime, shortTimeMatcher);
+                    event.setStartTime(localTime);
+                } else {
+                    logger.error("Could not parse time for " + strTime);
+                }
+            } else {
+                logger.error("No time was found for " + eventTime);
             }
         }
     }
 
-    private ChurchEvent convertEntryToEvent(SyndEntry entry) {
-        ChurchEvent event = null;
-        if (entry != null) {
-            event = new ChurchEvent();
-            extractEventName(event, entry);
-            extractEventDate(event, entry);
-            extractEventUrl(event, entry);
-            extractEventDescription(event, entry);
+    private LocalTime parseShortTimeString(String strTime, Matcher matcher) {
+        String strHour = matcher.group(1);
+        String strAmPm = matcher.group(2);
+        Integer intHour = Integer.parseInt(strHour);
+        if (strAmPm.equals("pm") && intHour != 12) {
+            intHour += 12;
         }
-        return event;
+        logger.debug("Converted " + strTime + " to " + intHour + ":00");
+        return new LocalTime(intHour, 00);
+    }
+
+    private LocalTime parseExtendedTimeString(String strTime, Matcher matcher) {
+        String strHour = matcher.group(1);
+        String strMin = matcher.group(2);
+        String strAmPm = matcher.group(3);
+        Integer intHour = Integer.parseInt(strHour);
+        Integer intMin = Integer.parseInt(strMin);
+        if (strAmPm.equals("pm") && intHour != 12) {
+            intHour += 12;
+        }
+        logger.debug("Converted " + strTime + " to " + intHour + ":" + intMin);
+        return new LocalTime(intHour, intMin);
     }
 
     private void extractEventUrl(ChurchEvent event, SyndEntry entry) {
@@ -255,14 +331,16 @@ public class StJohnTheApostleAdapter extends LoggingObject implements
                 + event.getStartTime());
     }
 
-    private SyndFeed downloadRssFeed() throws MalformedURLException,
-            FeedException, IOException {
-        URL feedUrl = new URL(URL_RSS);
-        logger.info("parsing rss feed at " + URL_RSS);
-        SyndFeedInput input = new SyndFeedInput();
-        SyndFeed feed = input.build(new XmlReader(feedUrl));
-        logger.debug("downloaded rss feed of " + feed);
-        return feed;
+    private Elements downloadEventTables() throws Exception {
+        Document doc = Jsoup.connect(URL_EVENTS).get();
+        Elements events = doc.select(".events");
+        return events;
+    }
+
+    private Elements downloadDates() throws Exception {
+        Document doc = Jsoup.connect(URL_EVENTS).get();
+        Elements dates = doc.select(".date");
+        return dates;
     }
 
     private void getContactInformation(ChurchDetail churchDetail)
