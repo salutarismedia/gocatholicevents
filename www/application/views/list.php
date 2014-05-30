@@ -32,7 +32,7 @@ switch ($type) {
 			</h2>
 			<table class="table table-hover">
 <?php
-foreach ( $items->result() as $item ) {
+foreach ( $items as $item ) {
     echo "<tr><td>";
     if ($type == URL_EVENTS) {
         echo smallParishEventLink($item);
@@ -43,7 +43,7 @@ foreach ( $items->result() as $item ) {
     echo "</td></tr>";
 }
 ?>
-<!--                 <tr> -->
+<!--         TODO         <tr> -->
 				<!-- 					<td><h5> -->
 				<!-- 							<a href="">More Events <span -->
 				<!-- 								class="glyphicon glyphicon-circle-arrow-right"></span></a> -->
