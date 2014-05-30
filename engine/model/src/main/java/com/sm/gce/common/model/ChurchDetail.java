@@ -46,6 +46,7 @@ public class ChurchDetail {
     private String city;
     private String citySlug;
     private String state;
+    private String stateSlug;
     private String zip;
     private String country;
     private String description;
@@ -240,6 +241,14 @@ public class ChurchDetail {
 
     public void setCitySlug(String citySlug) {
         this.citySlug = citySlug;
+    }
+
+    public String getStateSlug() {
+        return stateSlug;
+    }
+
+    public void setStateSlug(String stateSlug) {
+        this.stateSlug = stateSlug;
     }
 
 }
