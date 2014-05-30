@@ -1,6 +1,5 @@
 package com.sm.gce.adapters.st.john.the.apostle;
 
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -29,9 +28,6 @@ import com.sm.gce.common.model.enums.Day;
 import com.sm.gce.common.model.enums.Language;
 import com.sm.gce.util.LoggingObject;
 import com.sm.gce.util.WebHelper;
-import com.sun.syndication.feed.module.DCModule;
-import com.sun.syndication.feed.synd.SyndContent;
-import com.sun.syndication.feed.synd.SyndEntry;
 
 public class StJohnTheApostleAdapter extends LoggingObject implements
         ChurchDetailProvider {
@@ -248,6 +244,25 @@ public class StJohnTheApostleAdapter extends LoggingObject implements
             ChurchEvent event = new ChurchEvent();
             event.setStartDate(date);
             setEventTime(event, googleEvent);
+            setEventTitle(event, googleEvent);
+            churchDetail.getEvents().add(event);
+        }
+    }
+
+    private void setEventTitle(ChurchEvent event, Element googleEvent) {
+        if (event != null && googleEvent != null) {
+            Elements spans = googleEvent.select("span");
+            if (spans.size() == 1) {
+                String title = spans.get(0).text();
+                logger.debug("Extracted event title of " + title);
+                event.setName(title);
+            } else {
+                throw new RuntimeException(
+                        "Invalid span count on google event:  expected 1 but was "
+                                + spans.size());
+            }
+        } else {
+            throw new RuntimeException("invalid event for title extraction");
         }
     }
 
@@ -276,6 +291,8 @@ public class StJohnTheApostleAdapter extends LoggingObject implements
             } else {
                 logger.error("No time was found for " + eventTime);
             }
+        } else {
+            throw new RuntimeException("invalid event for time extraction");
         }
     }
 
@@ -301,34 +318,6 @@ public class StJohnTheApostleAdapter extends LoggingObject implements
         }
         logger.debug("Converted " + strTime + " to " + intHour + ":" + intMin);
         return new LocalTime(intHour, intMin);
-    }
-
-    private void extractEventUrl(ChurchEvent event, SyndEntry entry) {
-        event.setUrl(entry.getLink());
-        logger.debug("extracted event url of " + event.getUrl());
-    }
-
-    private void extractEventDescription(ChurchEvent event, SyndEntry entry) {
-        SyndContent content = entry.getDescription();
-        if (content != null) {
-            event.setDescription(content.getValue());
-            logger.debug("extracted event description of "
-                    + event.getDescription());
-        }
-    }
-
-    private void extractEventName(ChurchEvent event, SyndEntry entry) {
-        event.setName(entry.getTitle());
-        logger.debug("extracted event name of " + event.getName());
-    }
-
-    private void extractEventDate(ChurchEvent event, SyndEntry entry) {
-        DCModule module = (DCModule) entry.getModules().get(0);
-        Date date = module.getDate();
-        event.setStartDate(new LocalDate(date));
-        event.setStartTime(new LocalTime(date));
-        logger.debug("extracted event date of " + event.getStartDate() + " at "
-                + event.getStartTime());
     }
 
     private Elements downloadEventTables() throws Exception {

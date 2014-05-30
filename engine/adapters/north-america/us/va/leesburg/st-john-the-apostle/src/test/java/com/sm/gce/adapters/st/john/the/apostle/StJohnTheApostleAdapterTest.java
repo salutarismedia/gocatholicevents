@@ -161,18 +161,6 @@ public class StJohnTheApostleAdapterTest extends AbstractParserTest {
     }
 
     @Test
-    public void firstEventHasValidUrl() throws Exception {
-        ChurchEvent event = getChurchDetail().getEvent(EventType.OTHER).get(0);
-        assertTrue(event.getUrl().startsWith("http"));
-    }
-
-    @Test
-    public void firstEventHasDescription() throws Exception {
-        ChurchEvent event = getChurchDetail().getEvent(EventType.OTHER).get(0);
-        assertNotNull(event.getDescription());
-    }
-
-    @Test
     public void firstEventHasValidDate() throws Exception {
         ChurchEvent event = getChurchDetail().getEvent(EventType.OTHER).get(0);
         LocalDate date = new LocalDate(2000, 1, 1);
