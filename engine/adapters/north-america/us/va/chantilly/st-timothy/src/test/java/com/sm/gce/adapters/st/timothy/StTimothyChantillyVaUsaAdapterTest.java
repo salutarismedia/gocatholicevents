@@ -58,8 +58,18 @@ public class StTimothyChantillyVaUsaAdapterTest extends AbstractParserTest {
     }
 
     @Test
+    public void getCitySlug() throws Exception {
+        assertEquals("chantilly", getChurchDetail().getCitySlug());
+    }
+
+    @Test
     public void getState() throws Exception {
         assertEquals("VA", getChurchDetail().getState());
+    }
+
+    @Test
+    public void getStateSlug() throws Exception {
+        assertEquals("va", getChurchDetail().getStateSlug());
     }
 
     @Test

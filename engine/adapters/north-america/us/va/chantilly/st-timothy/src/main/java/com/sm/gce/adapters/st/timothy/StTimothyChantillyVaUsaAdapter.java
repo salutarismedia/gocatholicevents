@@ -75,6 +75,8 @@ public class StTimothyChantillyVaUsaAdapter extends LoggingObject implements
             churchDetail.setNameSlug("st-timothy");
             churchDetail.setLat(38.872481);
             churchDetail.setLon(-77.424497);
+            churchDetail.setCitySlug("chantilly");
+            churchDetail.setStateSlug("va");
             getMasses(churchDetail);
             getConfessions(churchDetail);
             getAdoration(churchDetail);
