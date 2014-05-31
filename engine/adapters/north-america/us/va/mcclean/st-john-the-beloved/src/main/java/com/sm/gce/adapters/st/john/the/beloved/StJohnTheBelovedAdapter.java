@@ -14,7 +14,14 @@ import com.sm.gce.common.exceptions.ParseException;
 import com.sm.gce.common.model.ChurchDetail;
 import com.sm.gce.common.model.ChurchDetailProvider;
 import com.sm.gce.common.model.ChurchEvent;
+import com.sm.gce.common.model.MondayEfMass;
+import com.sm.gce.common.model.MondayMass;
 import com.sm.gce.common.model.SaturdayConfession;
+import com.sm.gce.common.model.SaturdayMass;
+import com.sm.gce.common.model.SundayEfMass;
+import com.sm.gce.common.model.SundayMass;
+import com.sm.gce.common.model.VigilMass;
+import com.sm.gce.common.model.WeeklyMass;
 import com.sm.gce.common.model.enums.Day;
 import com.sm.gce.util.LoggingObject;
 import com.sm.gce.util.WebHelper;
@@ -37,10 +44,17 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
             .compile("McLean, VA 22101");
     private static final Pattern REGEX_PHONE = Pattern
             .compile("\\(703\\) 356-7916");
-    private static final Pattern REGEX_SAT_VIGIL_MASS = Pattern.compile("TODO");
-    private static final Pattern REGEX_SAT_DAILY_MASS = Pattern.compile("");
-    private static final Pattern REGEX_SUN_MASS = Pattern.compile("");
-    private static final Pattern REGEX_DAILY_MASS = Pattern.compile("");
+    private static final Pattern REGEX_SAT_VIGIL_MASS = Pattern
+            .compile("SATURDAY:.*?5:00 p.m.");
+    private static final Pattern REGEX_SAT_DAILY_MASS = Pattern
+            .compile("SATURDAY:.*?8:15");
+    private static final Pattern REGEX_SUN_MASS = Pattern
+            .compile("SUNDAY:.*?7:30.*?9:00.*?10:30.*?Noon.*?\\(High Latin Mass\\)");
+    private static final Pattern REGEX_MONDAY_MASS = Pattern.compile(
+            "MONDAY:.*?6:30.*?9:00.*?7:30 p.m..*?\\(Low Latin Mass\\)",
+            Pattern.DOTALL);
+    private static final Pattern REGEX_TUE_THROUGH_FRI_MASS = Pattern
+            .compile("TUESDAY - FRIDAY.*?6:30.*?9:00");
     private static final Pattern REGEX_HOLY_DAY_MASSES = Pattern.compile("");
     private static final Pattern REGEX_WEDNESDAY_CONFESSION = Pattern
             .compile("");
@@ -63,7 +77,7 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
             churchDetail.setStateSlug("va");
             getLocation(churchDetail);
             getContactInformation(churchDetail);
-            // getMasses(churchDetail);
+            getMasses(churchDetail);
             // getConfessions(churchDetail);
             // getAdoration(churchDetail);
             // getEvents(churchDetail);
@@ -164,12 +178,35 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
     }
 
     private void getDailyMasses(ChurchDetail churchDetail) throws Exception {
-        if (webHelper.matches(URL_HOME, REGEX_DAILY_MASS)) {
-            addDailyMasses(Day.MON, churchDetail);
-            addDailyMasses(Day.TUE, churchDetail);
-            addDailyMasses(Day.WED, churchDetail);
-            addDailyMasses(Day.THU, churchDetail);
-            addDailyMasses(Day.FRI, churchDetail);
+        getMondayDailyMasses(churchDetail);
+        getTueThroughFriMasses(churchDetail);
+    }
+
+    private void getTueThroughFriMasses(ChurchDetail churchDetail)
+            throws Exception {
+        if (webHelper.matches(URL_HOME, REGEX_TUE_THROUGH_FRI_MASS)) {
+            addDailyTueThroughFriMasses(Day.TUE, churchDetail);
+            addDailyTueThroughFriMasses(Day.WED, churchDetail);
+            addDailyTueThroughFriMasses(Day.THU, churchDetail);
+            addDailyTueThroughFriMasses(Day.FRI, churchDetail);
+        }
+    }
+
+    private void addDailyTueThroughFriMasses(Day day, ChurchDetail churchDetail) {
+        churchDetail.getEvents().add(new WeeklyMass(day, 6, 30));
+        churchDetail.getEvents().add(new WeeklyMass(day, 9, 00));
+    }
+
+    private void getMondayDailyMasses(ChurchDetail churchDetail)
+            throws Exception {
+        if (webHelper.matches(URL_HOME, REGEX_MONDAY_MASS)) {
+            churchDetail.getEvents().add(new MondayMass(6, 30));
+            churchDetail.getEvents().add(new MondayMass(9, 00));
+            ChurchEvent event = new MondayEfMass(19, 30);
+            event.setNote("(Low Latin Mass)");
+            churchDetail.getEvents().add(event);
+        } else {
+            throw new ParseException("Could not extract saturday daily mass.");
         }
     }
 
@@ -182,7 +219,7 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
     private void getSaturdayDailyMass(ChurchDetail churchDetail)
             throws Exception {
         if (webHelper.matches(URL_HOME, REGEX_SAT_DAILY_MASS)) {
-            // churchDetail.getEvents().add(new SaturdayMass(9, 00));
+            churchDetail.getEvents().add(new SaturdayMass(8, 15));
         } else {
             throw new ParseException("Could not extract saturday daily mass.");
         }
@@ -190,9 +227,12 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
 
     private void getSundayMasses(ChurchDetail churchDetail) throws Exception {
         if (webHelper.matches(URL_HOME, REGEX_SUN_MASS)) {
-            // churchDetail.getEvents().add(new SundayMass(7, 30));
-            // churchDetail.getEvents().add(new SundayMass(9, 00));
-            // ...
+            churchDetail.getEvents().add(new SundayMass(7, 30));
+            churchDetail.getEvents().add(new SundayMass(9, 00));
+            churchDetail.getEvents().add(new SundayMass(10, 30));
+            ChurchEvent event = new SundayEfMass(12, 00);
+            event.setNote("(High Latin Mass)");
+            churchDetail.getEvents().add(event);
         } else {
             throw new ParseException("Could not extract sunday masses.");
         }
@@ -201,7 +241,7 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
     private void getSaturdayVigilMass(ChurchDetail churchDetail)
             throws Exception {
         if (webHelper.matches(URL_HOME, REGEX_SAT_VIGIL_MASS)) {
-            // churchDetail.getEvents().add(new VigilMass(17, 30));
+            churchDetail.getEvents().add(new VigilMass(17, 00));
         } else {
             throw new ParseException("Could not extract saturday vigil mass.");
         }

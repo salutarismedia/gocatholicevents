@@ -88,64 +88,58 @@ public class StJohnTheBelovedAdapterTest extends AbstractParserTest {
     public void saturdayVigilMassWasFound() throws Exception {
         List<ChurchEvent> events = getChurchDetail().getEvent(
                 EventType.VIGIL_MASS, Day.SAT);
-        // TODO
-        assertEquals(-1, events.size());
-    }
-
-    @Test
-    public void saturdayMassesWereFound() throws Exception {
-        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
-                Day.SAT);
-        // TODO
-        assertEquals(-1, events.size());
+        assertEquals(1, events.size());
     }
 
     @Test
     public void sundayMassesWereFound() throws Exception {
         List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
                 Day.SUN);
-        // TODO
-        assertEquals(-1, events.size());
+        assertEquals(3, events.size());
+    }
+
+    @Test
+    public void saturdayMassesWereFound() throws Exception {
+        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
+                Day.SAT);
+        assertEquals(1, events.size());
     }
 
     @Test
     public void mondayMassesWereFound() throws Exception {
         List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
                 Day.MON);
-        // TODO
-        assertEquals(-1, events.size());
+        assertEquals(2, events.size());
+        events = getChurchDetail().getEvent(EventType.EF_MASS, Day.MON);
+        assertEquals(1, events.size());
     }
 
     @Test
     public void tuesdayMassesWereFound() throws Exception {
         List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
                 Day.TUE);
-        // TODO
-        assertEquals(-1, events.size());
+        assertEquals(2, events.size());
     }
 
     @Test
     public void wednesdayMassesWereFound() throws Exception {
         List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
                 Day.WED);
-        // TODO
-        assertEquals(-1, events.size());
+        assertEquals(2, events.size());
     }
 
     @Test
     public void thursdayMassesWereFound() throws Exception {
         List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
                 Day.THU);
-        // TODO
-        assertEquals(-1, events.size());
+        assertEquals(2, events.size());
     }
 
     @Test
     public void fridayMassesWereFound() throws Exception {
         List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
                 Day.FRI);
-        // TODO
-        assertEquals(-1, events.size());
+        assertEquals(2, events.size());
     }
 
     @Test
