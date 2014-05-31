@@ -21,8 +21,10 @@ import com.sm.gce.common.model.SaturdayMass;
 import com.sm.gce.common.model.SundayEfMass;
 import com.sm.gce.common.model.SundayMass;
 import com.sm.gce.common.model.VigilMass;
+import com.sm.gce.common.model.WednesdayConfession;
 import com.sm.gce.common.model.WeeklyMass;
 import com.sm.gce.common.model.enums.Day;
+import com.sm.gce.common.model.enums.EventType;
 import com.sm.gce.util.LoggingObject;
 import com.sm.gce.util.WebHelper;
 import com.sun.syndication.feed.module.DCModule;
@@ -55,11 +57,13 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
             Pattern.DOTALL);
     private static final Pattern REGEX_TUE_THROUGH_FRI_MASS = Pattern
             .compile("TUESDAY - FRIDAY.*?6:30.*?9:00");
-    private static final Pattern REGEX_HOLY_DAY_MASSES = Pattern.compile("");
     private static final Pattern REGEX_WEDNESDAY_CONFESSION = Pattern
-            .compile("");
+            .compile("WEDNESDAY:.*?6:30 .*? 7:15");
     private static final Pattern REGEX_SATURDAY_CONFESSION = Pattern
-            .compile("");
+            .compile("SATURDAY:.*?After 8:15 .*? Mass.*?3:30 .*? to 4:30");
+    private static final Pattern REGEX_FIRST_FRIDAY_CONFESSION = Pattern
+            .compile("FIRST FRIDAY.*?After 9:00 .*? Mass");
+
     private static final Pattern REGEX_WEEKDAY_ADORATION = Pattern.compile("");
     private static final Pattern REGEX_SATURDAY_ADORATION = Pattern.compile("");
 
@@ -78,7 +82,7 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
             getLocation(churchDetail);
             getContactInformation(churchDetail);
             getMasses(churchDetail);
-            // getConfessions(churchDetail);
+            getConfessions(churchDetail);
             // getAdoration(churchDetail);
             // getEvents(churchDetail);
         } catch (Exception e) {
@@ -139,19 +143,30 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
         getSaturdayDailyMass(churchDetail);
         getSundayMasses(churchDetail);
         getDailyMasses(churchDetail);
-        getHolyDayMasses(churchDetail);
     }
 
     private void getConfessions(ChurchDetail churchDetail) throws Exception {
         getWednesdayConfessions(churchDetail);
         getSaturdayConfessions(churchDetail);
+        getFirstFridayConfessions(churchDetail);
+    }
+
+    private void getFirstFridayConfessions(ChurchDetail churchDetail)
+            throws Exception {
+        if (webHelper.matches(URL_HOME, REGEX_FIRST_FRIDAY_CONFESSION)) {
+            ChurchEvent event = new ChurchEvent(EventType.CONFESSION);
+            event.setDay(Day.FIRST_FRI);
+            event.setStartTime(new LocalTime(9, 30));
+            churchDetail.getEvents().add(event);
+        }
     }
 
     private void getSaturdayConfessions(ChurchDetail churchDetail)
             throws Exception {
         if (webHelper.matches(URL_HOME, REGEX_SATURDAY_CONFESSION)) {
+            churchDetail.getEvents().add(new SaturdayConfession(8, 45));
             ChurchEvent event = new SaturdayConfession(15, 30);
-            // event.setStopTime(new LocalTime(17, 00));
+            event.setStopTime(new LocalTime(16, 30));
             churchDetail.getEvents().add(event);
         }
     }
@@ -159,21 +174,9 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
     private void getWednesdayConfessions(ChurchDetail churchDetail)
             throws Exception {
         if (webHelper.matches(URL_HOME, REGEX_WEDNESDAY_CONFESSION)) {
-            // ChurchEvent event = new WednesdayConfession(11, 00);
-            // event.setStopTime(new LocalTime(11, 45));
-            // churchDetail.getEvents().add(event);
-            // ...
-        }
-    }
-
-    private void getHolyDayMasses(ChurchDetail churchDetail) throws Exception {
-        if (webHelper.matches(URL_HOME, REGEX_HOLY_DAY_MASSES)) {
-            // ChurchEvent event = new HolyDayMass(19, 30);
-            // event.setNote("Vigil");
-            // churchDetail.getEvents().add(event);
-            // churchDetail.getEvents().add(new HolyDayMass(6, 15));
-            // churchDetail.getEvents().add(new HolyDayMass(9, 00));
-            // ...
+            ChurchEvent event = new WednesdayConfession(18, 30);
+            event.setStopTime(new LocalTime(19, 15));
+            churchDetail.getEvents().add(event);
         }
     }
 
@@ -185,14 +188,14 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
     private void getTueThroughFriMasses(ChurchDetail churchDetail)
             throws Exception {
         if (webHelper.matches(URL_HOME, REGEX_TUE_THROUGH_FRI_MASS)) {
-            addDailyTueThroughFriMasses(Day.TUE, churchDetail);
-            addDailyTueThroughFriMasses(Day.WED, churchDetail);
-            addDailyTueThroughFriMasses(Day.THU, churchDetail);
-            addDailyTueThroughFriMasses(Day.FRI, churchDetail);
+            addTueThroughFriMasses(Day.TUE, churchDetail);
+            addTueThroughFriMasses(Day.WED, churchDetail);
+            addTueThroughFriMasses(Day.THU, churchDetail);
+            addTueThroughFriMasses(Day.FRI, churchDetail);
         }
     }
 
-    private void addDailyTueThroughFriMasses(Day day, ChurchDetail churchDetail) {
+    private void addTueThroughFriMasses(Day day, ChurchDetail churchDetail) {
         churchDetail.getEvents().add(new WeeklyMass(day, 6, 30));
         churchDetail.getEvents().add(new WeeklyMass(day, 9, 00));
     }
@@ -208,12 +211,6 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
         } else {
             throw new ParseException("Could not extract saturday daily mass.");
         }
-    }
-
-    private void addDailyMasses(Day day, ChurchDetail churchDetail) {
-        // churchDetail.getEvents().add(new WeeklyMass(day, 6, 15));
-        // churchDetail.getEvents().add(new WeeklyMass(day, 9, 00));
-        // ...
     }
 
     private void getSaturdayDailyMass(ChurchDetail churchDetail)
