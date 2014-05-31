@@ -16,6 +16,15 @@
 		href="https://github.com/salutarismedia/gocatholicevents/issues"
 		target="_blank">issue tracker</a>. Thanks for reading and God love
 	you!
+	
+	<br><br>
+	<br><br>
+	<center>
+	<a target="_blank" href="https://play.google.com/store/apps/details?id=com.sm.gce">
+          <img alt="Get it on Google Play"
+               src="http://www.gocatholicevents.com/images/en_generic_rgb_wo_45.png" />
+        </a>
+        </center>
 </div>
 
 <?php require_once("footer.php")?>
