@@ -164,19 +164,24 @@ public class StJohnTheBelovedAdapterTest extends AbstractParserTest {
     }
 
     @Test
-    public void weeklyAdorationWasFound() throws Exception {
+    public void wedAdorationWasFound() throws Exception {
         List<ChurchEvent> events = getChurchDetail().getEvent(
-                EventType.ADORATION);
-        // TODO
-        assertEquals(-1, events.size());
+                EventType.ADORATION, Day.WED);
+        assertEquals(1, events.size());
     }
 
     @Test
-    public void saturdayAdorationWasFound() throws Exception {
+    public void firstFridayAdorationWasFound() throws Exception {
         List<ChurchEvent> events = getChurchDetail().getEvent(
-                EventType.ADORATION, Day.SAT);
-        // TODO
-        assertEquals(-1, events.size());
+                EventType.ADORATION, Day.FIRST_FRI);
+        assertEquals(1, events.size());
+    }
+
+    @Test
+    public void firstSaturdayAdorationWasFound() throws Exception {
+        List<ChurchEvent> events = getChurchDetail().getEvent(
+                EventType.ADORATION, Day.FIRST_SAT);
+        assertEquals(1, events.size());
     }
 
     @Test

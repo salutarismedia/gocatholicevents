@@ -64,8 +64,12 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
     private static final Pattern REGEX_FIRST_FRIDAY_CONFESSION = Pattern
             .compile("FIRST FRIDAY.*?After 9:00 .*? Mass");
 
-    private static final Pattern REGEX_WEEKDAY_ADORATION = Pattern.compile("");
-    private static final Pattern REGEX_SATURDAY_ADORATION = Pattern.compile("");
+    private static final Pattern REGEX_WEDNESDAY_ADORATION = Pattern
+            .compile("WEDNESDAY:.*?10:00 .*? 7:30 .*?followed by.*?Miraculous Medal Novena.*?concluding with.*?Benediction");
+    private static final Pattern REGEX_FIRST_FRIDAY_ADORATION = Pattern
+            .compile("FIRST FRIDAY:.*?10:00 .*? to 8:00");
+    private static final Pattern REGEX_FIRST_SATURDAY_ADORATION = Pattern
+            .compile("FIRST SATURDAY:.*?Eucharistic Adoration and Benediction.*?following the.*?8:15 .*? Mass");
 
     private WebHelper webHelper = new WebHelper();
 
@@ -83,7 +87,7 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
             getContactInformation(churchDetail);
             getMasses(churchDetail);
             getConfessions(churchDetail);
-            // getAdoration(churchDetail);
+            getAdoration(churchDetail);
             // getEvents(churchDetail);
         } catch (Exception e) {
             String msg = "Parse error";
@@ -102,40 +106,45 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
     }
 
     private void getAdoration(ChurchDetail churchDetail) throws Exception {
-        getWeeklyAdoration(churchDetail);
-        getSaturdayAdoration(churchDetail);
+        getWedAdoration(churchDetail);
+        getFirstFriAdoration(churchDetail);
+        getFirstSatAdoration(churchDetail);
     }
 
-    private void getSaturdayAdoration(ChurchDetail churchDetail)
+    private void getFirstSatAdoration(ChurchDetail churchDetail)
             throws Exception {
-        if (webHelper.matches(URL_HOME, REGEX_SATURDAY_ADORATION)) {
-            // ChurchEvent event = new ChurchEvent();
-            // event.setEventType(EventType.ADORATION);
-            // event.setStartTime(new LocalTime(9, 30));
-            // event.setStopTime(new LocalTime(12, 30));
-            // event.setDay(Day.SAT);
-            // churchDetail.getEvents().add(event);
+        if (webHelper.matches(URL_HOME, REGEX_FIRST_SATURDAY_ADORATION)) {
+            ChurchEvent event = new ChurchEvent();
+            event.setEventType(EventType.ADORATION);
+            event.setStartTime(new LocalTime(8, 45));
+            event.setDay(Day.FIRST_SAT);
+            event.setNote("following the 8:15 a.m. Mass");
+            churchDetail.getEvents().add(event);
         }
     }
 
-    private void getWeeklyAdoration(ChurchDetail churchDetail) throws Exception {
-        if (webHelper.matches(URL_HOME, REGEX_WEEKDAY_ADORATION)) {
-            // addDailyAdoration(Day.MON, churchDetail);
-            // addDailyAdoration(Day.TUE, churchDetail);
-            // addDailyAdoration(Day.WED, churchDetail);
-            // addDailyAdoration(Day.THU, churchDetail);
-            // addDailyAdoration(Day.FRI, churchDetail);
+    private void getFirstFriAdoration(ChurchDetail churchDetail)
+            throws Exception {
+        if (webHelper.matches(URL_HOME, REGEX_FIRST_FRIDAY_ADORATION)) {
+            ChurchEvent event = new ChurchEvent();
+            event.setEventType(EventType.ADORATION);
+            event.setStartTime(new LocalTime(10, 00));
+            event.setStopTime(new LocalTime(20, 00));
+            event.setDay(Day.FIRST_FRI);
+            churchDetail.getEvents().add(event);
         }
     }
 
-    private void addDailyAdoration(Day day, ChurchDetail churchDetail) {
-        // ChurchEvent event = new ChurchEvent();
-        // event.setEventType(EventType.ADORATION);
-        // event.setStartTime(new LocalTime(7, 0));
-        // event.setStopTime(new LocalTime(20, 30));
-        // event.setDay(day);
-        // event.setNote("Usually open until 10 p.m. in the summer");
-        // churchDetail.getEvents().add(event);
+    private void getWedAdoration(ChurchDetail churchDetail) throws Exception {
+        if (webHelper.matches(URL_HOME, REGEX_WEDNESDAY_ADORATION)) {
+            ChurchEvent event = new ChurchEvent();
+            event.setEventType(EventType.ADORATION);
+            event.setStartTime(new LocalTime(10, 00));
+            event.setStopTime(new LocalTime(19, 30));
+            event.setDay(Day.WED);
+            event.setNote("followed by Miraculous Medal Novena concluding with Benediction");
+            churchDetail.getEvents().add(event);
+        }
     }
 
     private void getMasses(ChurchDetail churchDetail) throws Exception {
