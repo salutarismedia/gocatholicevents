@@ -99,6 +99,7 @@ public class StLeoFairfaxVaUsaAdapter extends LoggingObject implements
             churchDetail.getEvents().add(event);
             event = new ChurchEvent(EventType.ADORATION, Day.FIRST_SAT,
                     new LocalTime(20, 00));
+            event.setNote("(following Saturday morning Mass)");
             event.setRepeatType(RepeatType.MONTHLY);
             churchDetail.getEvents().add(event);
         }
