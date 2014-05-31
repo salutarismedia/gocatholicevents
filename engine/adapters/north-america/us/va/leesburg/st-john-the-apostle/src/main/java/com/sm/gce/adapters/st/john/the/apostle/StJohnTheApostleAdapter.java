@@ -19,6 +19,7 @@ import com.sm.gce.common.model.ChurchEvent;
 import com.sm.gce.common.model.MondayConfession;
 import com.sm.gce.common.model.SaturdayConfession;
 import com.sm.gce.common.model.SaturdayMass;
+import com.sm.gce.common.model.SundayEfMass;
 import com.sm.gce.common.model.SundayMass;
 import com.sm.gce.common.model.VigilMass;
 import com.sm.gce.common.model.WednesdayConfession;
@@ -174,9 +175,7 @@ public class StJohnTheApostleAdapter extends LoggingObject implements
             ChurchEvent event = new SundayMass(14, 15);
             event.setLanguage(Language.SPANISH);
             churchDetail.getEvents().add(event);
-            event = new WeeklyMass(Day.SUN);
-            event.setNote("(Extraordinary Form)");
-            event.setStartTime(new LocalTime(10, 30));
+            event = new SundayEfMass(10, 30);
             event.setNote("(Chapel)");
             churchDetail.getEvents().add(event);
         } else {
