@@ -106,7 +106,9 @@ public class StJohnTheApostleAdapterTest extends AbstractParserTest {
     public void sundayMassesWereFound() throws Exception {
         List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
                 Day.SUN);
-        assertEquals(6, events.size());
+        assertEquals(5, events.size());
+        events = getChurchDetail().getEvent(EventType.EF_MASS, Day.SUN);
+        assertEquals(1, events.size());
     }
 
     @Test
