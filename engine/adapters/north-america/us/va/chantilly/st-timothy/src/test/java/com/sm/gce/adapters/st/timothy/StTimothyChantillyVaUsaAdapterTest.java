@@ -95,46 +95,46 @@ public class StTimothyChantillyVaUsaAdapterTest extends AbstractParserTest {
 
     @Test
     public void firstEventHasValidName() throws Exception {
-        ChurchEvent event = getChurchDetail().getEvent(EventType.OTHER).get(0);
+        ChurchEvent event = getChurchDetail().getEvents(EventType.OTHER).get(0);
         assertNotNull(event.getName());
     }
 
     @Test
     public void firstEventHasValidUrl() throws Exception {
-        ChurchEvent event = getChurchDetail().getEvent(EventType.OTHER).get(0);
+        ChurchEvent event = getChurchDetail().getEvents(EventType.OTHER).get(0);
         assertTrue(event.getUrl().startsWith("http"));
     }
 
     @Test
     public void firstEventHasDescription() throws Exception {
-        ChurchEvent event = getChurchDetail().getEvent(EventType.OTHER).get(0);
+        ChurchEvent event = getChurchDetail().getEvents(EventType.OTHER).get(0);
         assertNotNull(event.getDescription());
     }
 
     @Test
     public void firstEventHasValidDate() throws Exception {
-        ChurchEvent event = getChurchDetail().getEvent(EventType.OTHER).get(0);
+        ChurchEvent event = getChurchDetail().getEvents(EventType.OTHER).get(0);
         LocalDate date = new LocalDate(2000, 1, 1);
         assertTrue(event.getStartDate().isAfter(date));
     }
 
     @Test
     public void saturdayVigilMassWasFound() throws Exception {
-        List<ChurchEvent> events = getChurchDetail().getEvent(
+        List<ChurchEvent> events = getChurchDetail().getEvents(
                 EventType.VIGIL_MASS, Day.SAT);
         assertEquals(1, events.size());
     }
 
     @Test
     public void saturdayMassesWereFound() throws Exception {
-        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
+        List<ChurchEvent> events = getChurchDetail().getEvents(EventType.MASS,
                 Day.SAT);
         assertEquals(1, events.size());
     }
 
     @Test
     public void sundayMassesWereFound() throws Exception {
-        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
+        List<ChurchEvent> events = getChurchDetail().getEvents(EventType.MASS,
                 Day.SUN);
         assertEquals(5, events.size());
     }
@@ -142,70 +142,70 @@ public class StTimothyChantillyVaUsaAdapterTest extends AbstractParserTest {
     // TODO - add more tests for times?
     @Test
     public void sundayMassesHaveCorrectTime() throws Exception {
-        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
+        List<ChurchEvent> events = getChurchDetail().getEvents(EventType.MASS,
                 Day.SUN);
         assertEquals(new LocalTime(7, 30), events.get(0).getStartTime());
     }
 
     @Test
     public void mondayMassesWereFound() throws Exception {
-        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
+        List<ChurchEvent> events = getChurchDetail().getEvents(EventType.MASS,
                 Day.MON);
         assertEquals(3, events.size());
     }
 
     @Test
     public void tuesdayMassesWereFound() throws Exception {
-        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
+        List<ChurchEvent> events = getChurchDetail().getEvents(EventType.MASS,
                 Day.TUE);
         assertEquals(3, events.size());
     }
 
     @Test
     public void wednesdayMassesWereFound() throws Exception {
-        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
+        List<ChurchEvent> events = getChurchDetail().getEvents(EventType.MASS,
                 Day.WED);
         assertEquals(3, events.size());
     }
 
     @Test
     public void thursdayMassesWereFound() throws Exception {
-        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
+        List<ChurchEvent> events = getChurchDetail().getEvents(EventType.MASS,
                 Day.THU);
         assertEquals(3, events.size());
     }
 
     @Test
     public void fridayMassesWereFound() throws Exception {
-        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
+        List<ChurchEvent> events = getChurchDetail().getEvents(EventType.MASS,
                 Day.FRI);
         assertEquals(3, events.size());
     }
 
     @Test
     public void holyDayMassesWereFound() throws Exception {
-        List<ChurchEvent> events = getChurchDetail().getEvent(EventType.MASS,
+        List<ChurchEvent> events = getChurchDetail().getEvents(EventType.MASS,
                 Day.HOLY);
         assertEquals(6, events.size());
     }
 
     @Test
     public void wednesdayConfessionsWereFound() throws Exception {
-        List<ChurchEvent> events = getChurchDetail().getEvent(
+        List<ChurchEvent> events = getChurchDetail().getEvents(
                 EventType.CONFESSION, Day.WED);
         assertEquals(2, events.size());
     }
 
     @Test
     public void weeklyAdorationWasFound() throws Exception {
-        List<ChurchEvent> events = getChurchDetail().getEvent(
+        List<ChurchEvent> events = getChurchDetail().getEvents(
                 EventType.ADORATION);
         assertEquals(6, events.size());
     }
 
     @Test
     public void saturdayAdorationWasFound() throws Exception {
-        List<ChurchEvent> events = getChurchDetail().getEvent(
+        List<ChurchEvent> events = getChurchDetail().getEvents(
                 EventType.ADORATION, Day.SAT);
         assertEquals(1, events.size());
     }

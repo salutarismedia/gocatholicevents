@@ -1,13 +1,7 @@
 package com.sm.gce.adapters.st.john.the.beloved;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Date;
-import java.util.List;
 import java.util.regex.Pattern;
 
-import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 import com.sm.gce.common.exceptions.ParseException;
@@ -27,19 +21,12 @@ import com.sm.gce.common.model.enums.Day;
 import com.sm.gce.common.model.enums.EventType;
 import com.sm.gce.util.LoggingObject;
 import com.sm.gce.util.WebHelper;
-import com.sun.syndication.feed.module.DCModule;
-import com.sun.syndication.feed.synd.SyndContent;
-import com.sun.syndication.feed.synd.SyndEntry;
-import com.sun.syndication.feed.synd.SyndFeed;
-import com.sun.syndication.io.FeedException;
-import com.sun.syndication.io.SyndFeedInput;
-import com.sun.syndication.io.XmlReader;
 
 public class StJohnTheBelovedAdapter extends LoggingObject implements
         ChurchDetailProvider {
 
     private static final String URL_HOME = "http://www.stjohncatholicmclean.org/";
-    private static final String URL_RSS = "";
+    private static final String URL_EVENTS = "http://www.stjohncatholicmclean.org/events/default.html";
     private static final Pattern REGEX_STREET_ADDRESS = Pattern
             .compile("6420 Linway Terrace");
     private static final Pattern REGEX_CITY_STATE_ZIP = Pattern
@@ -63,13 +50,25 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
             .compile("SATURDAY:.*?After 8:15 .*? Mass.*?3:30 .*? to 4:30");
     private static final Pattern REGEX_FIRST_FRIDAY_CONFESSION = Pattern
             .compile("FIRST FRIDAY.*?After 9:00 .*? Mass");
-
     private static final Pattern REGEX_WEDNESDAY_ADORATION = Pattern
             .compile("WEDNESDAY:.*?10:00 .*? 7:30 .*?followed by.*?Miraculous Medal Novena.*?concluding with.*?Benediction");
     private static final Pattern REGEX_FIRST_FRIDAY_ADORATION = Pattern
             .compile("FIRST FRIDAY:.*?10:00 .*? to 8:00");
     private static final Pattern REGEX_FIRST_SATURDAY_ADORATION = Pattern
             .compile("FIRST SATURDAY:.*?Eucharistic Adoration and Benediction.*?following the.*?8:15 .*? Mass");
+
+    private static final Pattern REGEX_FIRST_FRIDAY_DEVOTION = Pattern
+            .compile(
+                    "First Friday Devotions begin after the 9:00 AM Mass on First Friday with Exposition of the Blessed Sacrament. Please come spend an hour in the presence of Our Eucharistic Lord. A sign-up sheet is in the vestibule to assure adorers are present every hour",
+                    Pattern.DOTALL);
+    private static final Pattern REGEX_FIRST_SATURDAY_DEVOTION = Pattern
+            .compile(
+                    "First Saturday, the 8:15 AM Mass will be followed by exposition of.*?the Blessed Sacrament, devotions and Benediction. Come and pray.*?for peace and Respect for Life through Our Lady of Fatima",
+                    Pattern.DOTALL);
+    private static final Pattern REGEX_ST_JOSEPH_SOCIETY = Pattern
+            .compile(
+                    "Father Pollard leads a group of dads who gather on the third.*?Friday of every month to pray the rosary, down a drink, eat .*?some pizza and then listen to a short presentation on a",
+                    Pattern.DOTALL);
 
     private WebHelper webHelper = new WebHelper();
 
@@ -88,7 +87,7 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
             getMasses(churchDetail);
             getConfessions(churchDetail);
             getAdoration(churchDetail);
-            // getEvents(churchDetail);
+            getEvents(churchDetail);
         } catch (Exception e) {
             String msg = "Parse error";
             logger.error(msg, e);
@@ -253,71 +252,65 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
         }
     }
 
-    private void getEvents(ChurchDetail churchDetail)
-            throws MalformedURLException, FeedException, IOException {
-        SyndFeed feed = downloadRssFeed();
-        logger.info("extracting rss values...");
-        extractEvents(churchDetail, feed);
+    private void getEvents(ChurchDetail churchDetail) throws Exception {
+        getFirstFridayDevotions(churchDetail);
+        getFirstSaturdayDevotions(churchDetail);
+        getStJosephSociety(churchDetail);
+        getParishEvents(churchDetail);
     }
 
-    private void extractEvents(ChurchDetail churchDetail, SyndFeed feed) {
-        List<SyndEntry> entries = feed.getEntries();
-        if (entries != null) {
-            for (SyndEntry entry : entries) {
-                ChurchEvent event = convertEntryToEvent(entry);
-                churchDetail.getEvents().add(event);
-            }
+    private void getParishEvents(ChurchDetail churchDetail) {
+        // TODO Auto-generated method stub
+        
+    }
+
+    private void getStJosephSociety(ChurchDetail churchDetail)
+            throws ParseException, Exception {
+        if (webHelper.matches(URL_HOME, REGEX_ST_JOSEPH_SOCIETY)) {
+            ChurchEvent event = new ChurchEvent();
+            event.setDay(Day.THIRD_FRI);
+            event.setEventType(EventType.OTHER);
+            event.setName("St. Joseph Society");
+            event.setUrl(URL_EVENTS);
+            event.setDescription("Father Pollard leads a group of dads who gather on the third Friday of every month to pray the rosary, down a drink, eat some pizza and then listen to a short presentation on a topic of mutual interest. If you would like more information and are interested in attending, please send an e-mail to Father");
+            churchDetail.getEvents().add(event);
+        } else {
+            throw new ParseException("Could not extract phone.");
         }
     }
 
-    private ChurchEvent convertEntryToEvent(SyndEntry entry) {
-        ChurchEvent event = null;
-        if (entry != null) {
-            event = new ChurchEvent();
-            extractEventName(event, entry);
-            extractEventDate(event, entry);
-            extractEventUrl(event, entry);
-            extractEventDescription(event, entry);
-        }
-        return event;
-    }
-
-    private void extractEventUrl(ChurchEvent event, SyndEntry entry) {
-        event.setUrl(entry.getLink());
-        logger.debug("extracted event url of " + event.getUrl());
-    }
-
-    private void extractEventDescription(ChurchEvent event, SyndEntry entry) {
-        SyndContent content = entry.getDescription();
-        if (content != null) {
-            event.setDescription(content.getValue());
-            logger.debug("extracted event description of "
-                    + event.getDescription());
+    private void getFirstSaturdayDevotions(ChurchDetail churchDetail)
+            throws Exception {
+        if (webHelper.matches(URL_HOME, REGEX_FIRST_SATURDAY_DEVOTION)) {
+            ChurchEvent event = new ChurchEvent();
+            event.setDay(Day.FIRST_SAT);
+            event.setStartTime(new LocalTime(8, 45));
+            event.setNote("First Saturday Devotions - Begins after the 8:15 AM mass");
+            event.setEventType(EventType.ADORATION);
+            event.setName("First Saturday Devotions");
+            event.setDescription("First Saturday, the 8:15 AM Mass will be followed by exposition of the Blessed Sacrament, devotions and Benediction. Come and pray for peace and Respect for Life through Our Lady of Fatima.");
+            event.setUrl(URL_EVENTS);
+            churchDetail.getEvents().add(event);
+        } else {
+            throw new ParseException("Could not extract phone.");
         }
     }
 
-    private void extractEventName(ChurchEvent event, SyndEntry entry) {
-        event.setName(entry.getTitle());
-        logger.debug("extracted event name of " + event.getName());
-    }
-
-    private void extractEventDate(ChurchEvent event, SyndEntry entry) {
-        DCModule module = (DCModule) entry.getModules().get(0);
-        Date date = module.getDate();
-        event.setStartDate(new LocalDate(date));
-        event.setStartTime(new LocalTime(date));
-        logger.debug("extracted event date of " + event.getStartDate() + " at "
-                + event.getStartTime());
-    }
-
-    private SyndFeed downloadRssFeed() throws MalformedURLException,
-            FeedException, IOException {
-        URL feedUrl = new URL(URL_RSS);
-        logger.info("parsing rss feed at " + URL_RSS);
-        SyndFeedInput input = new SyndFeedInput();
-        SyndFeed feed = input.build(new XmlReader(feedUrl));
-        logger.debug("downloaded rss feed of " + feed);
-        return feed;
+    private void getFirstFridayDevotions(ChurchDetail churchDetail)
+            throws ParseException, Exception {
+        if (webHelper.matches(URL_HOME, REGEX_FIRST_FRIDAY_DEVOTION)) {
+            ChurchEvent event = new ChurchEvent();
+            event.setDay(Day.FIRST_FRI);
+            event.setStartTime(new LocalTime(9, 30));
+            event.setNote("First Friday Devotions - Begins after the 9 AM mass");
+            event.setEventType(EventType.ADORATION);
+            event.setName("First Friday Devotions");
+            event.setDescription("First Friday Devotions begin after the 9:00 AM Mass on First Friday with Exposition of the Blessed Sacrament. Please come spend an hour in the presence of Our Eucharistic Lord. A sign-up sheet is in the vestibule to assure adorers are present every hour.");
+            event.setUrl(URL_EVENTS);
+            churchDetail.getEvents().add(event);
+        } else {
+            throw new ParseException("Could not extract phone.");
+        }
     }
 
     private void getContactInformation(ChurchDetail churchDetail)
@@ -337,7 +330,6 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
     }
 
     private void getCountry(ChurchDetail churchDetail) {
-        // usually not available on the site, so we'll hardcode this one
         churchDetail.setCountry("US");
     }
 

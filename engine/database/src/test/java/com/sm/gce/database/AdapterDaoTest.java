@@ -76,13 +76,13 @@ public class AdapterDaoTest {
         tag.setChurchEvent(churchEvent);
         churchEvent.getTags().add(tag);
         adapterDao.save(adapter);
-        Tag updateTag = adapter.getChurchDetail().getEvent(EventType.MASS)
+        Tag updateTag = adapter.getChurchDetail().getEvents(EventType.MASS)
                 .get(0).getTags().get(0);
         updateTag.setValue(TXT_UPDATED_TEST);
         adapterDao.save(adapter);
         Adapter chkAdapter = adapterDao.get(adapter);
         ChurchDetail chkChurchDetail = chkAdapter.getChurchDetail();
-        ChurchEvent chkChurchEvent = chkChurchDetail.getEvent(EventType.MASS)
+        ChurchEvent chkChurchEvent = chkChurchDetail.getEvents(EventType.MASS)
                 .get(0);
         Tag chkTag = chkChurchEvent.getTags().get(0);
         assertEquals(TXT_UPDATED_TEST, chkTag.getValue());
@@ -101,12 +101,12 @@ public class AdapterDaoTest {
         churchEvent.setChurchDetail(churchDetail);
         churchDetail.getEvents().add(churchEvent);
         adapterDao.save(adapter);
-        adapter.getChurchDetail().getEvent(EventType.MASS).get(0)
+        adapter.getChurchDetail().getEvents(EventType.MASS).get(0)
                 .setName(TXT_UPDATED_TEST);
         adapterDao.save(adapter);
         Adapter chkAdapter = adapterDao.get(adapter);
         ChurchDetail chkChurchDetail = chkAdapter.getChurchDetail();
-        ChurchEvent chkChurchEvent = chkChurchDetail.getEvent(EventType.MASS)
+        ChurchEvent chkChurchEvent = chkChurchDetail.getEvents(EventType.MASS)
                 .get(0);
         assertEquals(TXT_UPDATED_TEST, chkChurchEvent.getName());
     }
