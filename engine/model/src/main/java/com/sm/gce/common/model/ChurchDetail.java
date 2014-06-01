@@ -72,7 +72,7 @@ public class ChurchDetail {
         }
     }
 
-    public List<ChurchEvent> getEvent(EventType event) {
+    public List<ChurchEvent> getEvents(EventType event) {
         List<ChurchEvent> foundEvents = new ArrayList<ChurchEvent>();
         for (ChurchEvent churchEvent : events) {
             if (churchEvent.getEventType() != null) {
@@ -84,7 +84,19 @@ public class ChurchDetail {
         return foundEvents;
     }
 
-    public List<ChurchEvent> getEvent(EventType event, Day day) {
+    public List<ChurchEvent> getEvents(Day day) {
+        List<ChurchEvent> foundEvents = new ArrayList<ChurchEvent>();
+        for (ChurchEvent churchEvent : events) {
+            if (churchEvent.getDay() != null
+                    && churchEvent.getDay().equals(day)) {
+                foundEvents.add(churchEvent);
+
+            }
+        }
+        return foundEvents;
+    }
+
+    public List<ChurchEvent> getEvents(EventType event, Day day) {
         List<ChurchEvent> foundEvents = new ArrayList<ChurchEvent>();
         for (ChurchEvent churchEvent : events) {
             if (churchEvent.getEventType() != null
