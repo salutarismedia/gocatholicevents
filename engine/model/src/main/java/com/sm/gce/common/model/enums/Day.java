@@ -1,7 +1,7 @@
 package com.sm.gce.common.model.enums;
 
 public enum Day {
-    CHRISTMAS, EASTER, HOLY, SUN, MON, TUE, WED, THU, FRI, SAT, FIRST_SAT, FIRST_FRI;
+    CHRISTMAS, EASTER, HOLY, SUN, MON, TUE, WED, THU, FRI, THIRD_FRI, SAT, FIRST_SAT, FIRST_FRI;
 
     public static Day getValue(String value) {
         if (value.equalsIgnoreCase("saturday") || value.equalsIgnoreCase("sat")) {
