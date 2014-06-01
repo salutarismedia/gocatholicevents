@@ -10,21 +10,25 @@ public class WebHelper {
     private Map<String, String> cache = new HashMap<String, String>();
     private UrlDownloader urlDownloader = new UrlDownloader();
 
+    public String getUrl(String url) throws Exception {
+        if (!cacheContains(url)) {
+            populateCacheForUrl(url);
+        }
+        return cache.get(url);
+    }
+
     public Boolean matches(String url, Pattern pattern) throws Exception {
         Boolean match = Boolean.FALSE;
         if (url != null && pattern != null) {
-            if (!cacheContains(url)) {
-                populateCacheForUrl(url);
-            }
             return regexMatch(url, pattern);
         }
         return match;
     }
 
-    private Boolean regexMatch(String url, Pattern pattern) {
+    private Boolean regexMatch(String url, Pattern pattern) throws Exception {
         Boolean match = Boolean.FALSE;
         if (url != null && pattern != null) {
-            String content = cache.get(url);
+            String content = getUrl(url);
             if (content != null) {
                 Matcher matcher = pattern.matcher(content);
                 match = matcher.find();
