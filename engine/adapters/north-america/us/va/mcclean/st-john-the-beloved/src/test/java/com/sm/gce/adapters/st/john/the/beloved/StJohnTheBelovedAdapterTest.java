@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
-import org.joda.time.LocalDate;
 import org.junit.Test;
 
 import com.sm.gce.common.model.ChurchEvent;
@@ -174,14 +173,14 @@ public class StJohnTheBelovedAdapterTest extends AbstractParserTest {
     public void firstFridayAdorationWasFound() throws Exception {
         List<ChurchEvent> events = getChurchDetail().getEvents(
                 EventType.ADORATION, Day.FIRST_FRI);
-        assertEquals(1, events.size());
+        assertEquals(2, events.size());
     }
 
     @Test
     public void firstSaturdayAdorationWasFound() throws Exception {
         List<ChurchEvent> events = getChurchDetail().getEvents(
                 EventType.ADORATION, Day.FIRST_SAT);
-        assertEquals(1, events.size());
+        assertEquals(2, events.size());
     }
 
     @Test
@@ -209,16 +208,14 @@ public class StJohnTheBelovedAdapterTest extends AbstractParserTest {
     }
 
     @Test
-    public void firstEventHasValidDate() throws Exception {
-        ChurchEvent event = getChurchDetail().getEvents(EventType.OTHER).get(0);
-        LocalDate date = new LocalDate(2000, 1, 1);
-        assertTrue(event.getStartDate().isAfter(date));
+    public void getFirstFriDevotion() throws Exception {
+        List<ChurchEvent> events = getChurchDetail().getEvents(Day.FIRST_FRI);
+        assertEquals(3, events.size());
     }
 
     @Test
-    public void getFirstFridayDevotion() throws Exception {
-        // List<ChurchEvent> events =
-        // getChurchDetail().getEventss(Day.FIRST_FRI);
-        // assertEquals(1, events)
+    public void getFirstSatDevotion() throws Exception {
+        List<ChurchEvent> events = getChurchDetail().getEvents(Day.FIRST_SAT);
+        assertEquals(2, events.size());
     }
 }

@@ -31,8 +31,7 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
             .compile("6420 Linway Terrace");
     private static final Pattern REGEX_CITY_STATE_ZIP = Pattern
             .compile("McLean, VA 22101");
-    private static final Pattern REGEX_PHONE = Pattern
-            .compile("\\(703\\) 356-7916");
+    private static final Pattern REGEX_PHONE = Pattern.compile("356.*?7916");
     private static final Pattern REGEX_SAT_VIGIL_MASS = Pattern
             .compile("SATURDAY:.*?5:00 p.m.");
     private static final Pattern REGEX_SAT_DAILY_MASS = Pattern
@@ -58,17 +57,13 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
             .compile("FIRST SATURDAY:.*?Eucharistic Adoration and Benediction.*?following the.*?8:15 .*? Mass");
 
     private static final Pattern REGEX_FIRST_FRIDAY_DEVOTION = Pattern
-            .compile(
-                    "First Friday Devotions begin after the 9:00 AM Mass on First Friday with Exposition of the Blessed Sacrament. Please come spend an hour in the presence of Our Eucharistic Lord. A sign-up sheet is in the vestibule to assure adorers are present every hour",
-                    Pattern.DOTALL);
+            .compile("First Friday Devotions begin after the 9:00 AM Mass on First Friday");
     private static final Pattern REGEX_FIRST_SATURDAY_DEVOTION = Pattern
             .compile(
                     "First Saturday, the 8:15 AM Mass will be followed by exposition of.*?the Blessed Sacrament, devotions and Benediction. Come and pray.*?for peace and Respect for Life through Our Lady of Fatima",
                     Pattern.DOTALL);
     private static final Pattern REGEX_ST_JOSEPH_SOCIETY = Pattern
-            .compile(
-                    "Father Pollard leads a group of dads who gather on the third.*?Friday of every month to pray the rosary, down a drink, eat .*?some pizza and then listen to a short presentation on a",
-                    Pattern.DOTALL);
+            .compile("Father Pollard leads a group of dads who gather on the third");
 
     private WebHelper webHelper = new WebHelper();
 
@@ -261,12 +256,12 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
 
     private void getParishEvents(ChurchDetail churchDetail) {
         // TODO Auto-generated method stub
-        
+
     }
 
     private void getStJosephSociety(ChurchDetail churchDetail)
             throws ParseException, Exception {
-        if (webHelper.matches(URL_HOME, REGEX_ST_JOSEPH_SOCIETY)) {
+        if (webHelper.matches(URL_EVENTS, REGEX_ST_JOSEPH_SOCIETY)) {
             ChurchEvent event = new ChurchEvent();
             event.setDay(Day.THIRD_FRI);
             event.setEventType(EventType.OTHER);
@@ -275,13 +270,13 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
             event.setDescription("Father Pollard leads a group of dads who gather on the third Friday of every month to pray the rosary, down a drink, eat some pizza and then listen to a short presentation on a topic of mutual interest. If you would like more information and are interested in attending, please send an e-mail to Father");
             churchDetail.getEvents().add(event);
         } else {
-            throw new ParseException("Could not extract phone.");
+            throw new ParseException("Could not extract st joseph society.");
         }
     }
 
     private void getFirstSaturdayDevotions(ChurchDetail churchDetail)
             throws Exception {
-        if (webHelper.matches(URL_HOME, REGEX_FIRST_SATURDAY_DEVOTION)) {
+        if (webHelper.matches(URL_EVENTS, REGEX_FIRST_SATURDAY_DEVOTION)) {
             ChurchEvent event = new ChurchEvent();
             event.setDay(Day.FIRST_SAT);
             event.setStartTime(new LocalTime(8, 45));
@@ -292,13 +287,14 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
             event.setUrl(URL_EVENTS);
             churchDetail.getEvents().add(event);
         } else {
-            throw new ParseException("Could not extract phone.");
+            throw new ParseException(
+                    "Could not extract first saturday devotion.");
         }
     }
 
     private void getFirstFridayDevotions(ChurchDetail churchDetail)
             throws ParseException, Exception {
-        if (webHelper.matches(URL_HOME, REGEX_FIRST_FRIDAY_DEVOTION)) {
+        if (webHelper.matches(URL_EVENTS, REGEX_FIRST_FRIDAY_DEVOTION)) {
             ChurchEvent event = new ChurchEvent();
             event.setDay(Day.FIRST_FRI);
             event.setStartTime(new LocalTime(9, 30));
@@ -309,7 +305,7 @@ public class StJohnTheBelovedAdapter extends LoggingObject implements
             event.setUrl(URL_EVENTS);
             churchDetail.getEvents().add(event);
         } else {
-            throw new ParseException("Could not extract phone.");
+            throw new ParseException("Could not extract first friday devotion");
         }
     }
 
