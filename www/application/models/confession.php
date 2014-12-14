@@ -23,7 +23,7 @@ class Confession extends GeoModel {
         
         $query = $this->db->get();
         
-        return $query->result();
+        return $query;
     }
 
     function findByChurchId($churchId) {
@@ -33,8 +33,6 @@ class Confession extends GeoModel {
         $this->db->where(COL_EVENT_TYPE, EVENT_TYPE_CONFESSION);
         $this->db->order_by("startDate", "asc");
         $query = $this->db->get();
-        return $query->result();
+        return $query;
     }
 }
-
-?>

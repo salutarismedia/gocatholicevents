@@ -23,7 +23,7 @@ class Mass extends GeoModel {
         $this->db->or_where(COL_EVENT_TYPE . " =", EVENT_TYPE_VIGIL_MASS);
         $query = $this->db->get();
         
-        return $query->result();
+        return $query;
     }
 
     /**
@@ -42,7 +42,7 @@ class Mass extends GeoModel {
         
         $query = $this->db->get();
         
-        return $query->result();
+        return $query;
     }
 
     function findByChurchId($churchId) {
@@ -52,8 +52,6 @@ class Mass extends GeoModel {
         $this->db->where("(" . COL_EVENT_TYPE . " = '" . EVENT_TYPE_MASS . "' or " . COL_EVENT_TYPE . " = '" . EVENT_TYPE_VIGIL_MASS . "')");
         $this->db->order_by("startDate", "asc");
         $query = $this->db->get();
-        return $query->result();
+        return $query;
     }
 }
-
-?>

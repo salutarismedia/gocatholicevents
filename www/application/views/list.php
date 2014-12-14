@@ -2,20 +2,20 @@
 require_once ("header.php");
 
 switch ($type) {
-    case URL_EVENTS :
-        $typeName = "Events";
-        break;
-    case URL_ADORATIONS :
-        $typeName = "Adoration";
-        break;
-    case URL_MASSES :
-        $typeName = "Masses";
-        break;
-    case URL_CONFESSIONS :
-        $typeName = "Confessions";
-        break;
-    default :
-        $typeName = "Unknown type of $type";
+	case URL_EVENTS :
+		$typeName = "Events";
+		break;
+	case URL_ADORATIONS :
+		$typeName = "Adoration";
+		break;
+	case URL_MASSES :
+		$typeName = "Masses";
+		break;
+	case URL_CONFESSIONS :
+		$typeName = "Confessions";
+		break;
+	default :
+		$typeName = "Unknown type of $type";
 }
 
 ?>
@@ -32,23 +32,21 @@ switch ($type) {
 			</h2>
 			<table class="table table-hover">
 <?php
-foreach ( $items as $item ) {
-    echo "<tr><td>";
-    if ($type == URL_EVENTS) {
-        echo smallParishEventLink($item);
-    }
-    else {
-        echo smallParishSacramentLink($item);
-    }
-    echo "</td></tr>";
+if ($items->num_rows () > 0) {
+	foreach ( $items->result() as $item ) {
+		echo "<tr><td>";
+		if ($type == URL_EVENTS) {
+			echo smallParishEventLink ( $item );
+		} else {
+			echo smallParishSacramentLink ( $item );
+		}
+		echo "</td></tr>";
+	}
+} else {
+	echo "No upcoming $typeName in our database";
 }
 ?>
-<!--         TODO         <tr> -->
-				<!-- 					<td><h5> -->
-				<!-- 							<a href="">More Events <span -->
-				<!-- 								class="glyphicon glyphicon-circle-arrow-right"></span></a> -->
-				<!-- 						</h5></td> -->
-				<!-- 				</tr> -->
+
 			</table>
 			<!-- /items -->
 		</div>
