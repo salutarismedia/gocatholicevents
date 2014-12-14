@@ -22,4 +22,4 @@ We are currently looking for someone who can contribute an iOS app.
 We are also looking for someone who can contribute an Android app.  :)
 
 ###Eclipse Tooling
-This project is built using Eclipse, but should run just fine in another IDE.  The project is build using Gradle.  If you are using Eclipse, the Gradle STS plugin can speed up development:  https://github.com/spring-projects/eclipse-integration-gradle/
+This project is built using Eclipse, but should run just fine in another IDE.  The project is built using Gradle.  If you are using Eclipse, the Gradle STS plugin can speed up development:  https://github.com/spring-projects/eclipse-integration-gradle/
