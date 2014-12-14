@@ -31,7 +31,7 @@ class Confession extends GeoModel {
         $this->db->from(TABLE_EVENTS);
         $this->db->where(TABLE_EVENTS_FK_CHURCH_DETAIL, $churchId);
         $this->db->where(COL_EVENT_TYPE, EVENT_TYPE_CONFESSION);
-        $this->db->order_by("startDate", "asc");
+        $this->db->order_by(COL_START_DATE, ASC);
         $query = $this->db->get();
         return $query;
     }

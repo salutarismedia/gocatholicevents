@@ -9,6 +9,9 @@ class GeoModel extends CI_Model {
     }
 
     function prepareGeoEventQuery($lat, $lon, $limit) {
+    	// TODO - can this be moved to a class variable?
+    	$weekDays = array('SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT');
+    	
         // TODO - make user configurable to
         // search within <distance> miles
         $distance = 500;
@@ -17,10 +20,18 @@ class GeoModel extends CI_Model {
         $this->db->having('distance < ' . $distance);
         $this->db->from(TABLE_EVENTS);
         $this->db->join(TABLE_CHURCHES, JOIN_CHURCHES_TO_EVENTS);
-        $this->db->limit($limit);
-        $this->db->order_by("day", "asc");
-        $this->db->order_by("startDate", "asc");
-        $this->db->order_by("startTime", "asc");
+        $this->db->limit($limit);        
+        $this->db->order_by(COL_START_DATE, ASC);
+        
+        // beginning today, order out by week day
+        $today = strtoupper(date('D'));
+        $dayIndex = array_search($today, $weekDays);
+        for ($i = 0; $i < 7; $i++) {
+        	$this->db->order_by("day = '" . $weekDays[$dayIndex] ."'", DESC);
+        	$dayIndex = ($dayIndex + 1) % 7;
+        }
+        
+        $this->db->order_by(COL_START_TIME, ASC);
     }
 }
 
