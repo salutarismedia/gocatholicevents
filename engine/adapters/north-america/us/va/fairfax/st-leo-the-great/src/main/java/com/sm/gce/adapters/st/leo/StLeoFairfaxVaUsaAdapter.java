@@ -40,6 +40,7 @@ public class StLeoFairfaxVaUsaAdapter extends LoggingObject implements
     private static final String URL_HOME = "http://www.stleofairfax.com";
     private static final String URL_SCHEDULES = "http://stleofairfax.com/news-events/schedules/";
     private static final String URL_NEWS_RSS = "http://stleofairfax.com/category/news/feed";
+    private static final String URL_CONTACT = "http://stleofairfax.com/contact/";
     private static final Pattern REGEX_STREET_ADDRESS = Pattern
             .compile("3700 Old Lee Highway");
     private static final Pattern REGEX_CITY_STATE_ZIP = Pattern
@@ -259,7 +260,7 @@ public class StLeoFairfaxVaUsaAdapter extends LoggingObject implements
     }
 
     private void getPhone(ChurchDetail churchDetail) throws Exception {
-        if (webHelper.matches(URL_HOME, REGEX_PHONE)) {
+        if (webHelper.matches(URL_CONTACT, REGEX_PHONE)) {
             churchDetail.setPhone("703-273-5369");
         } else {
             throw new ParseException("Could not extract phone.");
@@ -272,7 +273,7 @@ public class StLeoFairfaxVaUsaAdapter extends LoggingObject implements
     }
 
     private void getCityStateAndZip(ChurchDetail churchDetail) throws Exception {
-        if (webHelper.matches(URL_HOME, REGEX_CITY_STATE_ZIP)) {
+        if (webHelper.matches(URL_CONTACT, REGEX_CITY_STATE_ZIP)) {
             churchDetail.setCity("Fairfax");
             churchDetail.setCitySlug("fairfax");
             churchDetail.setState("VA");
@@ -283,7 +284,7 @@ public class StLeoFairfaxVaUsaAdapter extends LoggingObject implements
     }
 
     private void getStreetAddress(ChurchDetail churchDetail) throws Exception {
-        if (webHelper.matches(URL_HOME, REGEX_STREET_ADDRESS)) {
+        if (webHelper.matches(URL_CONTACT, REGEX_STREET_ADDRESS)) {
             churchDetail.setStreetAddress("3700 Old Lee Highway");
         } else {
             throw new ParseException("Could not extract street address.");
