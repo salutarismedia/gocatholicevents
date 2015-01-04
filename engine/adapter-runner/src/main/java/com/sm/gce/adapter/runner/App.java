@@ -4,12 +4,20 @@ public class App {
 
     // run with gradle run -Parg=<path to adapter>
     // gradle run -Parg=../adapters/north-america/us/va/chantilly/st-timothy/
-    public static void main(String[] args) throws Exception {
+    // gradle run -Parg=../adapters/north-america/us/va/fairfax/st-leo-the-great
+    public static void main(String[] args) {
         if (!validInput(args)) {
             printUsage();
+            System.exit(1);
         } else {
             AdapterRunner adapterRunner = new AdapterRunner();
-            adapterRunner.runAdapter(args[0]);
+            try {
+                adapterRunner.runAdapter(args[0]);
+                System.exit(0);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                System.exit(1);
+            }
         }
     }
 
