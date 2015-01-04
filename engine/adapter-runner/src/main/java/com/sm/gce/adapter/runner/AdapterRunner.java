@@ -92,6 +92,7 @@ public class AdapterRunner extends LoggingObject {
             throws ExecuteException, IOException {
         logger.info("Checking if " + adapter.getPath() + " passes test...");
         CommandLine cmd = new CommandLine("gradle");
+        cmd.addArgument("clean");
         cmd.addArgument("test");
         DefaultExecutor executor = new DefaultExecutor();
         executor.setWorkingDirectory(new File(adapter.getPath()));
