@@ -31,8 +31,8 @@ class ChurchEvent extends GeoModel {
         $this->db->where(COL_EVENT_TYPE . " !=", EVENT_TYPE_VIGIL_MASS);
         $this->db->where(COL_EVENT_TYPE . " !=", EVENT_TYPE_ADORATION);
         $this->db->where(COL_EVENT_TYPE . " !=", EVENT_TYPE_CONFESSION);
-        $this->db->order_by("startDate", "asc");
-        $this->db->order_by("startTime", "asc");
+        $this->db->order_by("startDate", "desc");
+        $this->db->order_by("startTime", "desc");
     }
 
     function findByChurchIdAndLimit($churchId, $limit) {
