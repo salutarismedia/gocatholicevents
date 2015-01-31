@@ -17,11 +17,9 @@ public class UrlDownloader extends LoggingObject {
         logger.debug("Downloading url " + urlString);
         URL url = new URL(urlString);
         URLConnection connection = url.openConnection();
-        // connection.setRequestProperty("Referer",
-        // "http://www.gocatholicevents.com");
+        connection.setRequestProperty("Referer", "http://www.gocatholicevents.com");
         // connection.setRequestProperty("Accept-Encoding", "gzip, deflate");
-        // connection.setRequestProperty("User-Agent",
-        // "Mozilla/5.0 (X11; Ubuntu; Linux i686; rv:34.0)");
+        connection.setRequestProperty("User-Agent", "Go Catholic Events Index Box");
         // connection
         // .setRequestProperty("Accept",
         // "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");

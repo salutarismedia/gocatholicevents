@@ -8,9 +8,6 @@ import java.net.MalformedURLException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sm.gce.util.LoggingObject;
-import com.sm.gce.util.UrlDownloader;
-
 public class UrlDownloaderTest extends LoggingObject {
 
     private UrlDownloader urlDownloader;
@@ -25,5 +22,12 @@ public class UrlDownloaderTest extends LoggingObject {
         String html = urlDownloader.getUrl("http://www.google.com");
         assertNotNull(html);
         logger.info("download html of " + html);
+    }
+
+    @Test
+    public void downloadUrlFromSiteRequiringSpecificHeaders() throws MalformedURLException, IOException {
+        String html = urlDownloader
+                .getUrl("http://www.stjohncatholicmclean.org/");
+        assertNotNull(html);
     }
 }
