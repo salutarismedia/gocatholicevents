@@ -31,7 +31,7 @@ public class Engine extends LoggingObject {
         executor.setWorkingDirectory(new File("../uploader"));
         int exitValue = executor.execute(cmd);
         if (exitValue != 1) {
-            logger.error("engine run complete");
+            logger.info("engine run complete");
         } else {
             throw new RuntimeException("Could not upload data");
         }
