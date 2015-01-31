@@ -41,18 +41,18 @@ public class StJohnTheApostleAdapter extends LoggingObject implements
             .compile("Leesburg, VA 20176");
     private static final Pattern REGEX_PHONE = Pattern.compile("703-777-1317");
     private static final Pattern REGEX_SAT_VIGIL_MASS = Pattern
-            .compile("Saturday: 5:30 \\(Church\\)");
+            .compile("Saturday: 5:30 pm \\(Church\\)");
     private static final Pattern REGEX_SAT_DAILY_MASS = Pattern
-            .compile("Saturday, 9:00 \\(Church\\)");
+            .compile("Saturday, 9:00 am \\(Church\\)");
     private static final Pattern REGEX_SUN_MASS = Pattern
             .compile(
-                    "Sunday: 7:30, 9:00, 10:45, 12:30, 2:15 \\(Spanish\\), all in Church.*?Latin Extraordinary Form \\(Chapel\\): 10:30",
+                    "Sunday: 7:30 am, 9:00 am, 10:45 am, 12:30 pm, 2:15 pm \\(Spanish\\), all in Church.*?Latin Extraordinary Form \\(Chapel\\): 10:30 am",
                     Pattern.DOTALL);
     private static final Pattern REGEX_DAILY_MASS = Pattern
-            .compile("Daily Mass: Monday-Friday, 8:30 \\(Chapel\\) and noon \\(Church\\); Saturday, 9:00 \\(Church\\)");
+            .compile("Daily Mass: Monday-Friday, 8:30 am \\(Chapel\\) and noon \\(Church\\); Saturday, 9:00 am \\(Church\\)");
     private static final Pattern REGEX_CONFESSION = Pattern
             .compile(
-                    "Saturday, 4:00 \\(Church\\).*?Monday, 9:00 \\(Chapel\\), 12:30 \\(Church\\).*?Wednesdays during Lent, 6:30",
+                    "Saturday, 4:00 pm \\(Church\\).*?Monday, 9:00 am \\(Chapel\\), 12:30 pm \\(Church\\).*?Wednesdays 6:30 pm",
                     Pattern.DOTALL);
     private static final Pattern REGEX_ADORATION = Pattern
             .compile("After Monday morning mass until Friday morning mass \\(Chapel\\)");
@@ -133,6 +133,8 @@ public class StJohnTheApostleAdapter extends LoggingObject implements
             event = new WednesdayConfession(18, 30);
             event.setNote("(During Lent)");
             churchDetail.getEvents().add(event);
+        } else {
+            throw new ParseException("Could not match REGEX_CONFESSION");
         }
     }
 
@@ -143,6 +145,8 @@ public class StJohnTheApostleAdapter extends LoggingObject implements
             addDailyMasses(Day.WED, churchDetail);
             addDailyMasses(Day.THU, churchDetail);
             addDailyMasses(Day.FRI, churchDetail);
+        } else {
+            throw new ParseException("Could not match REGEX_DAILY_MASS");
         }
     }
 
@@ -153,6 +157,7 @@ public class StJohnTheApostleAdapter extends LoggingObject implements
         weeklyMass = new WeeklyMass(day, 12, 00);
         weeklyMass.setNote("(Church)");
         churchDetail.getEvents().add(weeklyMass);
+        logger.info("adding daily mass on " + day.toString());
     }
 
     private void getSaturdayDailyMass(ChurchDetail churchDetail)
@@ -241,6 +246,7 @@ public class StJohnTheApostleAdapter extends LoggingObject implements
     private void parseEvents(ChurchDetail churchDetail, LocalDate date,
             Element eventsTable) {
         Elements googleEvents = eventsTable.select(".event");
+        logger.info("parsing " + googleEvents.size() + " elements");
         for (Element googleEvent : googleEvents) {
             ChurchEvent event = new ChurchEvent();
             event.setStartDate(date);

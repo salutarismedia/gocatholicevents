@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class WebHelper {
+public class WebHelper extends LoggingObject {
 
     private Map<String, String> cache = new HashMap<String, String>();
     private UrlDownloader urlDownloader = new UrlDownloader();
@@ -39,6 +39,7 @@ public class WebHelper {
 
     private void populateCacheForUrl(String url) throws Exception {
         String content = urlDownloader.getUrl(url);
+        logger.info("downloaded \"" + content + "\" from: " + url);
         cache.put(url, content);
     }
 
