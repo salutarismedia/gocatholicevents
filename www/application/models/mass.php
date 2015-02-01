@@ -9,11 +9,11 @@ class Mass extends GeoModel {
 
     function findByLatAndLon($lat, $lon, $limit) {
         $this->prepareGeoEventQuery($lat, $lon, $limit);
-        
         $this->db->where(array (
                 COL_EVENT_TYPE => EVENT_TYPE_MASS 
         ));
         $this->db->or_where(COL_EVENT_TYPE . " =", EVENT_TYPE_VIGIL_MASS);
+        $this->orderByDay();
         $query = $this->db->get();
         
         return $query;

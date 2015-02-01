@@ -21,8 +21,8 @@ class Confession extends GeoModel {
                 COL_EVENT_TYPE => EVENT_TYPE_CONFESSION 
         ));
         
+        $this->orderByDay();
         $query = $this->db->get();
-        
         return $query;
     }
 
