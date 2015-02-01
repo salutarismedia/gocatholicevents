@@ -16,10 +16,14 @@
 			<h2>Latest Events</h2>
 			<table class="table table-hover">
                 <?php
-                // print_r($events);
-                foreach ( $events->result() as $event ) {
-                    echo "<tr><td>" . largeEventLink($event) . "</td></tr>";
-                }
+                if ($events->num_rows() > 0) {
+	                foreach ( $events->result() as $event ) {
+	                    echo "<tr><td>" . largeEventLink($event) . "</td></tr>";
+	                }
+	            }
+	            else {
+					echo "<tr><td><h3>There are no upcoming events.  To see more visit <a href='$church->url'>$church->url</a></h3></td></tr>";
+				}
                 ?>
 		</table>
 			<!-- /divEvents -->

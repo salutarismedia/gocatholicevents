@@ -26,7 +26,6 @@ class Church extends CI_Controller {
                 'adorations' => $this->adoration->findByChurchId($church->id),
                 'confessions' => $this->confession->findByChurchId($church->id) 
         );
-        // $this->output->enable_profiler(TRUE);
         $this->load->view('church', $data);
     }
 }
