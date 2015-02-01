@@ -14,9 +14,10 @@ class ChurchEvent extends GeoModel {
         $this->db->where(COL_EVENT_TYPE . " !=", EVENT_TYPE_VIGIL_MASS);
         $this->db->where(COL_EVENT_TYPE . " !=", EVENT_TYPE_ADORATION);
         $this->db->where(COL_EVENT_TYPE . " !=", EVENT_TYPE_CONFESSION);
-        $this->db->order_by("startDate", "desc");
-        $this->db->order_by("startTime", "desc");
-        $afterTime = date('Y-m-d', strtotime("-1 months"));
+        $this->db->order_by("startDate", ASC);
+        $this->db->order_by("startTime", ASC);
+        //$afterTime = date('Y-m-d', strtotime("-1 days"));
+        $afterTime = date('Y-m-d', strtotime("now"));
         $this->db->where("startDate" . " >=", $afterTime);
         $query = $this->db->get();
         return $query;

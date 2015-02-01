@@ -21,17 +21,17 @@ class GeoModel extends CI_Model {
         $this->db->from(TABLE_EVENTS);
         $this->db->join(TABLE_CHURCHES, JOIN_CHURCHES_TO_EVENTS);
         $this->db->limit($limit);        
-        $this->db->order_by(COL_START_DATE, ASC);
-        
-        // beginning today, order out by week day
-        $today = strtoupper(date('D'));
-        $dayIndex = array_search($today, $weekDays);
-        for ($i = 0; $i < 7; $i++) {
-        	$this->db->order_by("day = '" . $weekDays[$dayIndex] ."'", DESC);
-        	$dayIndex = ($dayIndex + 1) % 7;
-        }
-        
-        $this->db->order_by(COL_START_TIME, ASC);
+        //$this->db->order_by(COL_START_DATE, ASC);
+        //$this->db->order_by(COL_START_TIME, ASC);
+    }
+    function orderByDay() {
+    	// beginning today, order out by week day
+    	$today = strtoupper(date('D'));
+    	$dayIndex = array_search($today, $weekDays);
+    	for ($i = 0; $i < 7; $i++) {
+    		$this->db->order_by("day = '" . $weekDays[$dayIndex] ."'", ASC);
+    		$dayIndex = ($dayIndex + 1) % 7;
+    	}
     }
 }
 

@@ -109,7 +109,8 @@ if (! function_exists('smallParishEventLink')) {
         if ($item->url) {
             $link .= "</a>";
         }
-        $link .= " @ <a href='" . church_url($item) . "'>" . $item->churchName . "</a>";
+        $link .= " @ <a href='" . church_url($item) . "'>" . $item->churchName . "</a> "
+        		. $item->startDate;
         return $link;
     }
 }

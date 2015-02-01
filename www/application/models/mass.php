@@ -7,13 +7,6 @@ class Mass extends GeoModel {
         parent::__construct();
     }
 
-    /**
-     * returns nearby items
-     *
-     * @param latitude $lat            
-     * @param latitude $lon            
-     * @return unknown
-     */
     function findByLatAndLon($lat, $lon, $limit) {
         $this->prepareGeoEventQuery($lat, $lon, $limit);
         
