@@ -1,0 +1,1 @@
+var gceApp = angular.module('gceApp', []);
