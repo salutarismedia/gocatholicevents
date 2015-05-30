@@ -3,7 +3,7 @@
 /*
  * models a user in the system TODO - this class should be updated to use active record syntax
  */
-class User extends CI_Model {
+class ParishUser extends CI_Model {
 	var $id;
 	var $name;
 	var $email;
@@ -11,11 +11,11 @@ class User extends CI_Model {
 	var $rid;
 	function __construct() {
 		parent::__construct ();
-		$this->rid = uniqid();
+		$this->rid = uniqid ();
 	}
 	function findOne($id) {
 		$this->db->where ( "id", $id );
-		$query = $this->db->get ( USERS_TABLE );
+		$query = $this->db->get ( PARISH_USERS_TABLE );
 		$result = $query->row ();
 		$this->id = $result->id;
 		$this->name = $result->name;
@@ -25,54 +25,54 @@ class User extends CI_Model {
 	}
 	function exists() {
 		$this->db->where ( 'id', $this->id );
-		$this->db->from ( USERS_TABLE );
+		$this->db->from ( PARISH_USERS_TABLE );
 		$count = $this->db->count_all_results ();
 		return $count === 1;
 	}
 	function save() {
 		if ($this->exists ()) {
-			$this->updateRecord();
+			$this->updateRecord ();
 		} else {
-			$this->insertRecord();
+			$this->insertRecord ();
 		}
 	}
 	function updateRecord() {
 		echo "Updating record " . $this->id;
 		$data = array (
 				'name' => $this->name,
-				'email' => $this->email,
-					
-		);
+				'email' => $this->email 
+		)
+		;
 		$this->db->where ( 'id', $this->id );
-		$this->db->update ( USERS_TABLE, $data );
+		$this->db->update ( PARISH_USERS_TABLE, $data );
 	}
 	function insertRecord() {
 		echo "Adding new record";
 		$data = array (
 				'name' => $this->name,
 				'email' => $this->email,
-				'password' => password_hash($this->password, PASSWORD_BCRYPT),
-				'rid' => uuid()
+				'password' => password_hash ( $this->password, PASSWORD_BCRYPT ),
+				'rid' => uuid () 
 		);
-		$this->db->insert ( USERS_TABLE, $data );
+		$this->db->insert ( PARISH_USERS_TABLE, $data );
 	}
 	// TODO - switch to active record syntax
-	function isUniqueUsername($username) {
-		$query = $this->db->query ( "SELECT * FROM (`" . USERS_TABLE . "`) WHERE LOWER(`username`)=LOWER('$username') LIMIT 1" );
+	function isUniquename($name) {
+		$query = $this->db->query ( "SELECT * FROM (`" . PARISH_USERS_TABLE . "`) WHERE LOWER(`name`)=LOWER('$name') LIMIT 1" );
 		return ($query->num_rows () == 0);
 	}
 	// TODO - switch to active record syntax
 	function isUniqueEmail($email) {
-		$query = $this->db->query ( "SELECT * FROM (`" . USERS_TABLE . "`) WHERE LOWER(`email`)=LOWER('$email') LIMIT 1" );
+		$query = $this->db->query ( "SELECT * FROM (`" . PARISH_USERS_TABLE . "`) WHERE LOWER(`email`)=LOWER('$email') LIMIT 1" );
 		return ($query->num_rows () == 0);
 	}
 	// TODO - switch to active record syntax
-	function findOneBy($username, $password) {
-		if ($username && $password) {
-			$password = password_hash($password, PASSWORD_BCRYPT);
-			$sql = "SELECT `id`, username, email FROM " . USERS_TABLE . " WHERE LOWER(`username`)= LOWER(?) AND `password`=?";
+	function findOneBy($name, $password) {
+		if ($name && $password) {
+			$password = password_hash ( $password, PASSWORD_BCRYPT );
+			$sql = "SELECT `id`, name, email FROM " . PARISH_USERS_TABLE . " WHERE LOWER(`name`)= LOWER(?) AND `password`=?";
 			$query = $this->db->query ( $sql, array (
-					$username,
+					$name,
 					$password 
 			) );
 			// log_message('debug', "logging in with sql of $sql");
@@ -81,37 +81,37 @@ class User extends CI_Model {
 				$this->name = $query->row ()->name;
 				$this->email = $query->row ()->email;
 				/*
-				 * log_message('debug', "user logged in with $sql and account name " . $this->input->post('username') . " and was assigned account name " . $this->name . " and id " . $this->id);
+				 * log_message('debug', "user logged in with $sql and account name " . $this->input->post('name') . " and was assigned account name " . $this->name . " and id " . $this->id);
 				 */
 				return TRUE;
-				// DB::Query("UPDATE `Accounts` SET `lastLoggedIn`='" . mktime() . "' WHERE `username`='$username'");
+				// DB::Query("UPDATE `Accounts` SET `lastLoggedIn`='" . mktime() . "' WHERE `name`='$name'");
 			}
 		}
 		return FALSE;
 	}
 	// TODO - switch to active record syntax
-	function confirmRid($username, $rid) {
-		$sql = "SELECT `rid` FROM " . USERS_TABLE . " WHERE username = ? AND rid = ?";
-		log_message ( 'debug', "confirming $rid for $username with sql of $sql" );
+	function confirmRid($name, $rid) {
+		$sql = "SELECT `rid` FROM " . PARISH_USERS_TABLE . " WHERE name = ? AND rid = ?";
+		log_message ( 'debug', "confirming $rid for $name with sql of $sql" );
 		
 		$query = $this->db->query ( $sql, array (
-				$username,
+				$name,
 				$rid 
 		) );
 		
 		if ($query->num_rows () == 1) {
 			return TRUE;
 		} else {
-			log_message ( 'error', "could not confirm $username and $rid" );
+			log_message ( 'error', "could not confirm $name and $rid" );
 			return FALSE;
 		}
 	}
 	// TODO - switch to active record syntax
-	function unlock($username) {
-		$sql = "UPDATE " . USERS_TABLE . " SET enabled='true' WHERE username = ?";
-		log_message ( 'debug', "attempting to unlock $username account with sql $sql" );
+	function unlock($name) {
+		$sql = "UPDATE " . PARISH_USERS_TABLE . " SET enabled='true' WHERE name = ?";
+		log_message ( 'debug', "attempting to unlock $name account with sql $sql" );
 		$this->db->query ( $sql, array (
-				$username 
+				$name 
 		) );
 		
 		if (mysql_affected_rows () == 1) {
