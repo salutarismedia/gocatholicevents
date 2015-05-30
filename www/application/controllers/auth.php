@@ -8,7 +8,7 @@ class Auth extends CI_Controller {
 	function index() {
 		$this->load->helper ( 'form' );
 		$this->load->library ( 'form_validation' );
-		$this->load->model ( 'user' );
+		$this->load->model ( 'parishuser' );
 		
 		$this->form_validation->set_rules ( 'username', 'Username', 'trim|required' );
 		$this->form_validation->set_rules ( 'password', 'Password', 'trim|required' );
@@ -16,16 +16,19 @@ class Auth extends CI_Controller {
 		if ($this->form_validation->run () == FALSE) {
 			$this->load->view ( 'login' );
 		} else {
-			
-			if ($this->user->login ()) {
+			$name = $this->input->post('username');
+			$password = $this->input->post('password');
+			$parishUser = $this->parishuser->findOneBy($name, $password);
+			if ($parishUser != null) {
 				// log_message('info', 'logged in');
-				$this->session->set_userdata ( 'id', $this->user->id );
-				$this->session->set_userdata ( 'name', $this->user->name );
-				$this->session->set_userdata ( 'email', $this->user->email );
-				redirect ( 'account' );
+				$this->session->set_userdata ( ID, $this->parishuser->id );
+				$this->session->set_userdata ( NAME, $this->parishuser->name );
+				$this->session->set_userdata ( EMAIL, $this->parishuser->email );
+				$this->session->set_userdata ( CHURCH_ID, $this->parishuser->church_id );
+				redirect ( 'parishaccount' );
 			} else {
 				// log_message('info', 'did not log in');
-				$this->session->set_userdata ( 'info', 'Incorrect username or password.  Please try again.' );
+				$this->session->set_userdata ( INFO, 'Incorrect username or password.  Please try again.' );
 				$this->load->view ( 'login' );
 			}
 		}

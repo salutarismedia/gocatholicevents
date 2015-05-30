@@ -8,6 +8,7 @@ class ParishUser extends CI_Model {
 	var $name;
 	var $email;
 	var $password;
+	var $church_id;
 	function __construct() {
 		parent::__construct ();
 	}
@@ -18,6 +19,7 @@ class ParishUser extends CI_Model {
 		$this->id = $result->id;
 		$this->name = $result->name;
 		$this->email = $result->email;
+		$this->church_id = $result->church_id;
 		return $this;
 	}
 	function exists() {
@@ -38,20 +40,20 @@ class ParishUser extends CI_Model {
 		$data = array (
 				'name' => $this->name,
 				'email' => $this->email 
-		)
-		;
+		);
 		$this->db->where ( 'id', $this->id );
 		$this->db->update ( PARISH_USERS_TABLE, $data );
 	}
-	function insertRecord() {
-		echo "Adding new record";
-		$data = array (
-				'name' => $this->name,
-				'email' => $this->email,
-				'password' => password_hash ( $this->password, PASSWORD_BCRYPT )
-		);
-		$this->db->insert ( PARISH_USERS_TABLE, $data );
-	}
+	// TODO
+	// function insertRecord() {
+	// echo "Adding new record";
+	// $data = array (
+	// 'name' => $this->name,
+	// 'email' => $this->email
+	// // TODO 'password' => password_hash ( $this->password, PASSWORD_BCRYPT )
+	// );
+	// $this->db->insert ( PARISH_USERS_TABLE, $data );
+	// }
 	// TODO - switch to active record syntax
 	function isUniquename($name) {
 		$query = $this->db->query ( "SELECT * FROM (`" . PARISH_USERS_TABLE . "`) WHERE LOWER(`name`)=LOWER('$name') LIMIT 1" );
@@ -65,8 +67,8 @@ class ParishUser extends CI_Model {
 	// TODO - switch to active record syntax
 	function findOneBy($name, $password) {
 		if ($name && $password) {
-			$password = password_hash ( $password, PASSWORD_BCRYPT );
-			$sql = "SELECT `id`, name, email FROM " . PARISH_USERS_TABLE . " WHERE LOWER(`name`)= LOWER(?) AND `password`=?";
+			// TODO - $password = password_hash ( $password, PASSWORD_BCRYPT );
+			$sql = "SELECT `id`, name, email FROM " . PARISH_USERS_TABLE . " WHERE LOWER(`name`)= LOWER(?) AND `password`=SHA(?)";
 			$query = $this->db->query ( $sql, array (
 					$name,
 					$password 
