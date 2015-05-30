@@ -10,7 +10,7 @@
 				<li id="liAbout"><a href="<?php echo site_url('about')?>">About</a></li>
 				<li id="liContact"><a href="<?php echo site_url('contact')?>">Contact</a></li>
 				<li id="liContribute"><a href="<?php echo site_url('contribute')?>">Contribute</a></li>
-				<li id="liLogin">
+				<li id="liAccount">
 				<?php
 				if ($this->session->userdata ( ID )) {
 					echo "<a id='logout' href='" . site_url ( 'auth/logout' ) . "'>Logout</a>";
@@ -47,6 +47,9 @@ $(function() {
 	}
 	else if (title.indexOf("contribute") > 0) {
 	    highlight($('#liContribute'));
+	}
+	else if (title.indexOf("auth") > 0 || title.indexOf("account") > 0) {
+	    highlight($('#liAccount'));
 	}
 	else {
 		highlight($('#liHome'));

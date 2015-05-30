@@ -33,7 +33,7 @@ echo $formTag;
 	</tr>
 	<tr>
 		<td colspan=2 align=left><br> <b>Don't have a parish account?<br></b>  They're
-			free!<a href='<?php echo site_url('contact')?>'>Contact us</a> and
+			free!  <a href='<?php echo site_url('contact')?>'>Contact us</a> and
 			we'll create one for you!</td>
 	</tr>
 </table>
