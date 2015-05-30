@@ -8,10 +8,8 @@ class ParishUser extends CI_Model {
 	var $name;
 	var $email;
 	var $password;
-	var $rid;
 	function __construct() {
 		parent::__construct ();
-		$this->rid = uniqid ();
 	}
 	function findOne($id) {
 		$this->db->where ( "id", $id );
@@ -20,7 +18,6 @@ class ParishUser extends CI_Model {
 		$this->id = $result->id;
 		$this->name = $result->name;
 		$this->email = $result->email;
-		$this->rid = $result->rid;
 		return $this;
 	}
 	function exists() {
@@ -51,8 +48,7 @@ class ParishUser extends CI_Model {
 		$data = array (
 				'name' => $this->name,
 				'email' => $this->email,
-				'password' => password_hash ( $this->password, PASSWORD_BCRYPT ),
-				'rid' => uuid () 
+				'password' => password_hash ( $this->password, PASSWORD_BCRYPT )
 		);
 		$this->db->insert ( PARISH_USERS_TABLE, $data );
 	}
@@ -88,23 +84,6 @@ class ParishUser extends CI_Model {
 			}
 		}
 		return FALSE;
-	}
-	// TODO - switch to active record syntax
-	function confirmRid($name, $rid) {
-		$sql = "SELECT `rid` FROM " . PARISH_USERS_TABLE . " WHERE name = ? AND rid = ?";
-		log_message ( 'debug', "confirming $rid for $name with sql of $sql" );
-		
-		$query = $this->db->query ( $sql, array (
-				$name,
-				$rid 
-		) );
-		
-		if ($query->num_rows () == 1) {
-			return TRUE;
-		} else {
-			log_message ( 'error', "could not confirm $name and $rid" );
-			return FALSE;
-		}
 	}
 	// TODO - switch to active record syntax
 	function unlock($name) {
