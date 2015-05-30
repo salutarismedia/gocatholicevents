@@ -13,6 +13,7 @@ import org.joda.time.LocalDateTime;
 
 import com.sm.gce.common.model.Adapter;
 import com.sm.gce.common.model.ChurchDetail;
+import com.sm.gce.common.model.ChurchEvent;
 import com.sm.gce.database.AdapterDao;
 import com.sm.gce.util.Constants;
 import com.sm.gce.util.LoggingObject;
@@ -29,7 +30,7 @@ public class AdapterRunner extends LoggingObject {
                 if (adapter != null) {
                     adapter.setLastRunOn(new LocalDateTime());
                     if (unitTestsPassForAdapter(adapter)) {
-                        ChurchDetail churchDetail = getChurchDetailFromAdapter(adapterPath);
+                        ChurchDetail churchDetail = getChurchDetailFromDisk(adapterPath);
                         updateAdapter(adapter, churchDetail);
                     }
                 } else {
@@ -47,12 +48,9 @@ public class AdapterRunner extends LoggingObject {
 
     private void updateAdapter(Adapter adapter, ChurchDetail churchDetail) {
         if (adapter != null && churchDetail != null) {
-            logger.info("adding church with name " + churchDetail.getName()
-                    + " to database..");
-            adapterDao.deleteDataFor(adapter);
-            churchDetail.setUpdatedOn(new LocalDateTime());
-            churchDetail.setAdapter(adapter);
-            adapter.setChurchDetail(churchDetail);
+            logger.info("updating church with name " + churchDetail.getName()
+                    + " in database..");
+            updateAdapterChurchDetail(adapter, churchDetail);
             logger.info("saving updated adapter...");
             adapterDao.save(adapter);
         } else {
@@ -60,14 +58,24 @@ public class AdapterRunner extends LoggingObject {
         }
     }
 
-    private ChurchDetail getChurchDetailFromAdapter(String adapterPath) {
+    private void updateAdapterChurchDetail(Adapter adapter,
+            ChurchDetail churchDetail) {
+        ChurchDetail currentChurchDetail = adapter.getChurchDetail();
+
+        currentChurchDetail.setUpdatedOn(new LocalDateTime());
+        currentChurchDetail.setEvents(churchDetail.getEvents());
+        // refresh the keys to point to the new parent object instead
+        currentChurchDetail.refreshHibernateRelationships();
+    }
+
+    private ChurchDetail getChurchDetailFromDisk(String adapterPath) {
         String filePath = adapterPath + File.separatorChar
                 + Constants.OUTPUT_FILE;
         ChurchDetail churchDetail = null;
         File file = new File(filePath);
         if (file.exists()) {
             try {
-                logger.info("unmarshalling church detail at " + filePath);
+                logger.info("unmarshalling church detail from disk at " + filePath);
                 JAXBContext context = JAXBContext
                         .newInstance(ChurchDetail.class);
                 Unmarshaller unmarshaller = context.createUnmarshaller();

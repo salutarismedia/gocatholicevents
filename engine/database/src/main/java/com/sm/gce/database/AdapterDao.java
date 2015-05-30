@@ -103,6 +103,7 @@ public class AdapterDao {
         return savedAdapter;
     }
 
+    @Deprecated // save the church detail record so the primary keys aren't changed
     public void deleteDataFor(Adapter adapter) {
         if (adapter != null && adapter.getId() != null) {
             ChurchDetail churchDetail = adapter.getChurchDetail();
