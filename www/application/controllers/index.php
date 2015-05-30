@@ -4,6 +4,7 @@ if (! defined ( 'BASEPATH' ))
 
 require_once (APPPATH . 'util/GoogleMapsApi.php');
 require_once (APPPATH . 'util/ip2locationlite.class.php');
+
 class Index extends CI_Controller {
 	public function __construct() {
 		parent::__construct ();

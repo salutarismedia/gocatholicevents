@@ -1,4 +1,4 @@
-<?php require_once("header.php")?>
+<?php require_once("parishaccount-header.php")?>
 
 <div class="container">
 	<h1>Welcome <?php echo $user->name;?> </h1>
@@ -14,10 +14,11 @@
 	</address>
 
 	<div id="rowEvents" class="row">
-		<div id="divEvents" class="col-lg-8">
+		<div id="divEvents" class="col-md-8">
 			<h2>Parish Events</h2>
-			<table class="table table-hover">TODO
-			</table>
+			<div class="row" ng-repeat="event in events">
+				<div class="col-md-2">{{event.name}}</div>
+			</div>
 			<!-- /divEvents -->
 		</div>
 		<!-- /rowEvents -->
