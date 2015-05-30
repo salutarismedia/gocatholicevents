@@ -12,16 +12,19 @@ class ChurchEvent extends GeoModel {
 		$this->db->where ( COL_EVENT_TYPE . " !=", EVENT_TYPE_ADORATION );
 		$this->db->where ( COL_EVENT_TYPE . " !=", EVENT_TYPE_CONFESSION );
 		$this->orderByDate ();
-		log_message('debug', "query was " . $this->db->last_query());
+		$this->limitByExpiration ();
+		log_message ( 'debug', "query was " . $this->db->last_query () );
 		$query = $this->db->get ();
 		return $query;
+	}
+	function limitByExpiration() {
+		$this->db->where ( "startDate" . " >=", $afterTime );
 	}
 	function orderByDate() {
 		$this->db->order_by ( "startDate", ASC );
 		$this->db->order_by ( "startTime", ASC );
 		// $afterTime = date('Y-m-d', strtotime("-1 days"));
 		$afterTime = date ( 'Y-m-d', strtotime ( "now" ) );
-		$this->db->where ( "startDate" . " >=", $afterTime );
 	}
 	function setUpChurchQuery($churchId) {
 		$this->db->select ( '*' );
@@ -38,11 +41,12 @@ class ChurchEvent extends GeoModel {
 		$this->setUpChurchQuery ( $churchId );
 		$this->db->limit ( $limit );
 		$query = $this->db->get ();
-		log_message('debug', "query was " . $this->db->last_query());
+		log_message ( 'debug', "query was " . $this->db->last_query () );
 		return $query;
 	}
 	function findByChurchId($churchId) {
-		$this->setUpChurchQuery ();
+		$this->setUpChurchQuery ( $churchId );
+		$this->orderByDate ();
 		$query = $this->db->get ();
 		return $query;
 	}
