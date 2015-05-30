@@ -9,6 +9,8 @@ define('TABLE_CHURCHES', 'ChurchDetails');
 define('TABLE_EVENTS', 'ChurchEvents');
 define('TABLE_EVENTS_FK_CHURCH_DETAIL', 'church_detail_id');
 define('JOIN_CHURCHES_TO_EVENTS', TABLE_CHURCHES . '.id = ' . TABLE_EVENTS . '.' . TABLE_EVENTS_FK_CHURCH_DETAIL);
+define('USERS_TABLE', 'Users');
+define('ID', 'id');
 define('COL_EVENT_TYPE', 'type');
 define('COL_COUNTRY', 'country');
 define('COL_STATE', 'state');

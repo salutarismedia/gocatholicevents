@@ -10,7 +10,16 @@
 				<li id="liAbout"><a href="<?php echo site_url('about')?>">About</a></li>
 				<li id="liContact"><a href="<?php echo site_url('contact')?>">Contact</a></li>
 				<li id="liContribute"><a href="<?php echo site_url('contribute')?>">Contribute</a></li>
-
+				<li id="liLogin">
+				<?php
+				if ($this->session->userdata ( ID )) {
+					echo "<a id='logout' href='" . site_url ( 'auth/logout' ) . "'>Logout</a>";
+					echo "<a id='account' href='" . site_url ( 'account' ) . "'>My Account</a>";
+				} else {
+					echo "<a id='login' href='" . site_url ( 'auth' ) . "'>Log In</a>";
+				}
+				?>
+				</li>
 			</ul>
 			<form class="navbar-form" role="search"
 				action="<?php echo site_url("index/search/")?>" method="get">
