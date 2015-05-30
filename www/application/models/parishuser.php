@@ -1,7 +1,7 @@
 <?php
 
 /*
- * models a user in the system TODO - this class should be updated to use active record syntax
+ * models a user in the system
  */
 class ParishUser extends CI_Model {
 	var $id;

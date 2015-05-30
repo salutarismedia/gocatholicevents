@@ -10,13 +10,12 @@
 				<li id="liAbout"><a href="<?php echo site_url('about')?>">About</a></li>
 				<li id="liContact"><a href="<?php echo site_url('contact')?>">Contact</a></li>
 				<li id="liContribute"><a href="<?php echo site_url('contribute')?>">Contribute</a></li>
-				<li id="liAccount">
 				<?php
 				if ($this->session->userdata ( ID )) {
-					echo "<a id='logout' href='" . site_url ( 'auth/logout' ) . "'>Logout</a>";
-					echo "<a id='account' href='" . site_url ( 'account' ) . "'>My Account</a>";
+					echo "<li id='liAccount'><a id='account' href='" . site_url ( 'account' ) . "'>My Account</a></li>";
+					echo "<li id='liLogout'><a id='logout' href='" . site_url ( 'auth/logout' ) . "'>Logout</a></li>";
 				} else {
-					echo "<a id='login' href='" . site_url ( 'auth' ) . "'>Log In</a>";
+					echo "<li id='liLogin'><a id='login' href='" . site_url ( 'auth' ) . "'>Log In</a></li>";
 				}
 				?>
 				</li>
@@ -48,8 +47,11 @@ $(function() {
 	else if (title.indexOf("contribute") > 0) {
 	    highlight($('#liContribute'));
 	}
-	else if (title.indexOf("auth") > 0 || title.indexOf("account") > 0) {
+	else if ( title.indexOf("account") > 0) {
 	    highlight($('#liAccount'));
+	}
+	else if ( title.indexOf("auth") > 0 ) {
+	    highlight($('#liLogin'));
 	}
 	else {
 		highlight($('#liHome'));
