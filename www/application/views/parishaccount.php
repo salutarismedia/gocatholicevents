@@ -14,10 +14,42 @@
 	</address>
 
 	<div id="rowEvents" class="row">
-		<div id="divEvents" class="col-md-8">
-			<h2>Parish Events</h2>
-			<div class="row" ng-repeat="event in events">
-				<div class="col-md-2">{{event.name}}</div>
+		<div id="divEvents" class="col-md-10">
+			<div class="row">
+				<div class="col-md-5">
+					<h2>Parish Events</h2>
+					<button ng-click="addEvent()">Add Event</button>
+				</div>
+			</div>
+			<div class="row event-row" ng-repeat="event in events">
+				<div class="row">
+					<div class="col-md-8">
+						<h4>{{event.name}}</h4>
+					</div>
+					<div class="col-md-1">
+						<span class="glyphicon glyphicon-edit"></span>
+					</div>
+					<div class="col-md-1">
+						<span class="glyphicon glyphicon-trash"></span>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4 event-date">{{event.startDate}} @
+						{{event.startTime}}</div>
+				</div>
+				<div class="row">
+					<div class="col-md-13 event-description">
+						<p>{{event.description}}</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-13">
+						<p>
+							<a href="{{event.url}}" target="_blank">{{event.url}}</a><span
+								class="glyphicon glyphicon-new-window"></span>
+						</p>
+					</div>
+				</div>
 			</div>
 			<!-- /divEvents -->
 		</div>

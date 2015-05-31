@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Go Catholic Events</title>
 <link href="<?php echo base_url();?>css/gce.css" rel="stylesheet" />
+<link href="<?php echo base_url();?>css/parish-account.css" rel="stylesheet" />
 <link href="<?php echo base_url();?>css/bootstrap.min.css"
 	rel="stylesheet" />
 <script src="<?php echo base_url();?>js/jquery-1.11.0.min.js"></script>

@@ -11,9 +11,7 @@ gceApp.controller('parishAccountController', function($scope, $http) {
 	$scope.getEvents = function() {
 		$http.get("events/json/" + $scope.churchId).success(function($data) {
 			$scope.events = $data
-		}).fail(function() {
-			console.log("Could not retrieve events");
-		})
+		});
 	}
 
 });
