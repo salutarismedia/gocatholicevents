@@ -1,4 +1,4 @@
-gceApp.controller('parishAccountController', function($scope) {
+gceApp.controller('parishAccountController', function($scope, $http) {
 
 	$scope.events = [];
 	$scope.churchId;
@@ -9,7 +9,7 @@ gceApp.controller('parishAccountController', function($scope) {
 	}
 
 	$scope.getEvents = function() {
-		$.get("events/json/" + $scope.churchId).done(function($data) {
+		$http.get("events/json/" + $scope.churchId).success(function($data) {
 			$scope.events = $data
 		}).fail(function() {
 			console.log("Could not retrieve events");
