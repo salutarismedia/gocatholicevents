@@ -14,6 +14,6 @@
 <script
 	src="<?php echo base_url();?>js/controllers/parishAccountController.js"></script>
 </head>
-<body ng-controller="parishAccountController">
+<body ng-controller="parishAccountController" ng-init="init('<?php echo $church->id?>')">
     <?php require_once("navbar.php")?>
 	<div id="divContainer" class="container">

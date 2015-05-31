@@ -1,19 +1,19 @@
 gceApp.controller('parishAccountController', function($scope) {
 
 	$scope.events = [];
+	$scope.churchId;
 
-	function init() {
-		getEvents();
+	$scope.init = function(churchId) {
+		$scope.churchId = churchId;
+		$scope.getEvents();
 	}
 
-	function getEvents() {
-		$.get("church/events").done(function($data) {
+	$scope.getEvents = function() {
+		$.get("events/json/" + $scope.churchId).done(function($data) {
 			$scope.events = $data
 		}).fail(function() {
 			console.log("Could not retrieve events");
 		})
 	}
-
-	init();
 
 });

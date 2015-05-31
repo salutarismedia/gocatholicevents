@@ -18,13 +18,13 @@ class ChurchEvent extends GeoModel {
 		return $query;
 	}
 	function limitByExpiration() {
+		// $afterTime = date('Y-m-d', strtotime("-1 days"));
+		$afterTime = date ( 'Y-m-d', strtotime ( "now" ) );
 		$this->db->where ( "startDate" . " >=", $afterTime );
 	}
 	function orderByDate() {
 		$this->db->order_by ( "startDate", ASC );
 		$this->db->order_by ( "startTime", ASC );
-		// $afterTime = date('Y-m-d', strtotime("-1 days"));
-		$afterTime = date ( 'Y-m-d', strtotime ( "now" ) );
 	}
 	function setUpChurchQuery($churchId) {
 		$this->db->select ( '*' );

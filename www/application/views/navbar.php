@@ -12,7 +12,7 @@
 				<li id="liContribute"><a href="<?php echo site_url('contribute')?>">Contribute</a></li>
 				<?php
 				if ($this->session->userdata ( ID )) {
-					echo "<li id='liAccount'><a id='account' href='" . site_url ( 'account' ) . "'>My Account</a></li>";
+					echo "<li id='liAccount'><a id='account' href='" . site_url ( 'parishaccount' ) . "'>My Account</a></li>";
 					echo "<li id='liLogout'><a id='logout' href='" . site_url ( 'auth/logout' ) . "'>Logout</a></li>";
 				} else {
 					echo "<li id='liLogin'><a id='login' href='" . site_url ( 'auth' ) . "'>Log In</a></li>";

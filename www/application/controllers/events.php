@@ -10,7 +10,7 @@ class Events extends CI_Controller {
 	public function json($churchId) {
 		if (isset ( $churchId )) {
 			$events = $this->churchevent->findByChurchId ( $churchId );
-			echoAsJson ( $events->result() );
+			echoAsJson ( $events->result () );
 		} else {
 			show_error ( 'Missing parameter', 400 );
 		}
